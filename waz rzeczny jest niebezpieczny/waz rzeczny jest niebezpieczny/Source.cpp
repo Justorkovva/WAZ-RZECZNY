@@ -98,7 +98,7 @@ int main(void)
 			if (count == 3)
 			{
 				tytul = false;
-				poziom = 4;
+				poziom = 5;
 			}
 		}
 		if (ev.type == ALLEGRO_EVENT_KEY_DOWN)
