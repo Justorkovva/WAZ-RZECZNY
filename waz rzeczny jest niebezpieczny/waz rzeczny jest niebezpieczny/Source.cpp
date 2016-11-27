@@ -6,8 +6,6 @@
 #include<string>
 using namespace std;
 
-
-// zrobic int level, zaczynajac od 0, zwieksza sie jak sie przejdzie dalej i w case'ach beda plansze
 //predkosc zwieksza sie w czasie, dodatkowo po przejsciu wszystkich lvl zaczyna sie od nowa z wieksza predkoscia
 //trzeba wymyslic funkcje pojawiania sie kolejnych cz³onow (easy), ale potem zmieniania polozenia przy skrecaniu
 
