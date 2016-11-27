@@ -1,3 +1,8 @@
 ﻿  Source.cpp
+c:\users\ja\documents\github\waz-rzeczny\waz rzeczny jest niebezpieczny\waz rzeczny jest niebezpieczny\source.cpp(32): warning C4101: 'p5': unreferenced local variable
+c:\users\ja\documents\github\waz-rzeczny\waz rzeczny jest niebezpieczny\waz rzeczny jest niebezpieczny\source.cpp(32): warning C4101: 'p3': unreferenced local variable
+c:\users\ja\documents\github\waz-rzeczny\waz rzeczny jest niebezpieczny\waz rzeczny jest niebezpieczny\source.cpp(32): warning C4101: 'p1': unreferenced local variable
+c:\users\ja\documents\github\waz-rzeczny\waz rzeczny jest niebezpieczny\waz rzeczny jest niebezpieczny\source.cpp(32): warning C4101: 'p4': unreferenced local variable
+c:\users\ja\documents\github\waz-rzeczny\waz rzeczny jest niebezpieczny\waz rzeczny jest niebezpieczny\source.cpp(32): warning C4101: 'p2': unreferenced local variable
   waz rzeczny jest niebezpieczny.vcxproj -> C:\Users\Ja\Documents\GitHub\WAZ-RZECZNY\waz rzeczny jest niebezpieczny\Debug\waz rzeczny jest niebezpieczny.exe
   waz rzeczny jest niebezpieczny.vcxproj -> C:\Users\Ja\Documents\GitHub\WAZ-RZECZNY\waz rzeczny jest niebezpieczny\Debug\waz rzeczny jest niebezpieczny.pdb (Partial PDB)

@@ -29,7 +29,7 @@ int main(void)
 	bool tytul = true;
 	int pos_x = 640 / 2;
 	int pos_y = 160;
-	short int p=0,p1,p2,p3,p4,p5,los,los2;
+	short int p=0,p1,p2,p3,p4,p5,los,los2,i,j;
 	short poziom = 0;
 
 	ALLEGRO_DISPLAY *okno = NULL;
@@ -98,9 +98,9 @@ int main(void)
 		
 		if(losowanie) //wrzuca z pliku do tablicy, losuje elementy i liczy ile ich jest
 		{
-			for (int i = 0; i < 28; i++)
+			for ( i = 0; i < 28; i++)
 			{
-				for (int j = 0; j < 40; j++)
+				for ( j = 0; j < 40; j++)
 				{
 					plik >> poziom1[i][j];
 					plik2 >> poziom2[i][j];
@@ -109,7 +109,7 @@ int main(void)
 					plik5 >> poziom5[i][j];
 				}
 			}
-			while (p<150)
+			while (p<120)
 			{
 				los = rand() % 28;
 				los2 = rand() % 40;
@@ -120,25 +120,31 @@ int main(void)
 				}
 			}
 			p = 0;
-			while (p<100) //poziom2 elementy
+			while (p<130) //poziom2 elementy
 			{
 				los = rand() % 28;
 				los2 = rand() % 40;
 				if (poziom2[los][los2] == 0)
 				{
-					poziom2[los][los2] = 2;
-					p++;
+					if (los != 20 && los2 != 28)
+					{
+						poziom2[los][los2] = 2;
+						p++;
+					}
 				}
 			}
 			p = 0;
-			while (p<100)
+			while (p<150)
 			{
 				los = rand() % 28;
 				los2 = rand() % 40;
 				if (poziom3[los][los2] == 0)
 				{
-					poziom3[los][los2] = 2;
-					p++;
+					if ((los!=25 && los2!=18) && (los != 25 && los2 != 21) && (los != 25 && los2 != 23) && (los != 26 && los2 != 17) && (los != 26 && los2 != 22) && (los != 25 && los2 != 16) && (los != 12 && los2 != 38) && (los != 15 && los2 != 38) && (los != 12 && los2 != 1) && (los != 15 && los2 != 1) && (los != 4 && los2 != 16) && (los != 4 && los2 != 23) && (los != 3 && los2 != 17) && (los != 3 && los2 != 22) && (los != 4 && los2 != 18) && (los != 4 && los2 != 21))
+					{
+						poziom3[los][los2] = 2;
+						p++;
+					}
 				}
 			}
 			p = 0;
@@ -153,47 +159,23 @@ int main(void)
 				}
 			}
 			p = 0;
-			while (p<100)
+			while (p<180)
 			{
 				los = rand() % 28;
 				los2 = rand() % 40;
 
 				if (poziom5[los][los2] == 0)
 				{
-					poziom5[los][los2] = 2;
-					p++;
+					if ((los != 6 && los2 != 3) && (los != 10 && los2 != 4) && (los != 17 && los2 != 4))
+					{
+						poziom5[los][los2] = 2;
+						p++;
+					}
 				}
 			}
 			p = 0;
-			p1 = 0; p2 = 0; p3 = 0; p4 = 0; p5 = 0;
+			//p1 = 0; p2 = 0; p3 = 0; p4 = 0; p5 = 0;
 
-			for (int i = 0; i < 28; i++)
-			{
-				for (int j = 0; j < 40; j++)
-				{
-					if (poziom1[i][j] == 2)
-					{
-						p1++;
-					}
-					if (poziom2[i][j] == 2)
-					{
-						p2++;
-					}
-					if (poziom3[i][j] == 2)
-					{
-						p3++;
-					}
-					if (poziom4[i][j] == 2)
-					{
-						p4++;
-					}
-					if (poziom5[i][j] == 2)
-					{
-						p5++;
-					}
-				}
-			}
-			cout << p1 << " " << p2 << " " << p3 << " " << p4 << " " << p5;
 			losowanie = false;
 		}
 
@@ -253,12 +235,12 @@ int main(void)
 			if (poziom == 1)
 			{
 				al_clear_to_color(al_map_rgb(255, 0, 0));
-				for (int i = 0; i < 28; i++)
+				for ( i = 0; i < 28; i++)
 				{
-					for (int j = 0; j < 40; j++)
+					for ( j = 0; j < 40; j++)
 					{
 						if (poziom1[i][j] == 1)
-							al_draw_filled_rectangle(j * 16, (i * 16) + 32, (j * 16) + 16, (i * 16) + 48, al_map_rgb(0, 0, 0));
+						al_draw_filled_rectangle(j * 16, (i * 16) + 32, (j * 16) + 16, (i * 16) + 48, al_map_rgb(0, 0, 0));
 						else if (poziom1[i][j] == 2)
 						{
 							al_draw_filled_circle((j * 16) + 8, (i * 16) + 40, 4, al_map_rgb(255, 255, 255));
@@ -273,9 +255,9 @@ int main(void)
 			else if (poziom == 2)
 			{
 				al_clear_to_color(al_map_rgb(255, 255, 0));
-				for (int i = 0; i < 28; i++)
+				for (i = 0; i < 28; i++)
 				{
-					for (int j = 0; j < 40; j++)
+					for ( j = 0; j < 40; j++)
 					{
 						if (poziom2[i][j] == 1)
 							al_draw_filled_rectangle(j * 16, (i * 16) + 32, (j * 16) + 16, (i * 16) + 48, al_map_rgb(0, 0, 0));
@@ -289,13 +271,13 @@ int main(void)
 			else if (poziom == 3)
 			{
 				al_clear_to_color(al_map_rgb(0, 255, 255));
-				for (int i = 0; i < 28; i++)
+				for ( i = 0; i < 28; i++)
 				{
-					for (int j = 0; j < 40; j++)
+					for (j = 0; j < 40; j++)
 					{
 						if (poziom3[i][j] == 1)
 							al_draw_filled_rectangle(j * 16, (i * 16) + 32, (j * 16) + 16, (i * 16) + 48, al_map_rgb(0, 0, 0));
-						else if (poziom2[i][j] == 2)
+						else if (poziom3[i][j] == 2)
 							al_draw_filled_circle((j * 16) + 8, (i * 16) + 40, 4, al_map_rgb(14, 0, 255));
 					}
 				}
@@ -305,13 +287,13 @@ int main(void)
 			else if (poziom == 4)
 			{
 				al_clear_to_color(al_map_rgb(180, 0, 255));
-				for (int i = 0; i < 28; i++)
+				for ( i = 0; i < 28; i++)
 				{
-					for (int j = 0; j < 40; j++)
+					for ( j = 0; j < 40; j++)
 					{
 						if (poziom4[i][j] == 1)
 							al_draw_filled_rectangle(j * 16, (i * 16) + 32, (j * 16) + 16, (i * 16) + 48, al_map_rgb(0, 0, 0));
-						else if (poziom2[i][j] == 2)
+						else if (poziom4[i][j] == 2)
 							al_draw_filled_circle((j * 16) + 8, (i * 16) + 40, 4, al_map_rgb(255, 195, 2));
 					}
 				}
@@ -321,14 +303,18 @@ int main(void)
 			else if (poziom == 5)
 			{
 				al_clear_to_color(al_map_rgb(248, 160, 17));
-				for (int i = 0; i < 28; i++)
+				for ( i = 0; i < 28; i++)
 				{
-					for (int j = 0; j < 40; j++)
+					for ( j = 0; j < 40; j++)
 					{
 						if (poziom5[i][j] == 1)
+						{
 							al_draw_filled_rectangle(j * 16, (i * 16) + 32, (j * 16) + 16, (i * 16) + 48, al_map_rgb(0, 0, 0));
-						else if (poziom2[i][j] == 2)
+						}
+						else if (poziom5[i][j] == 2)
+						{
 							al_draw_filled_circle((j * 16) + 8, (i * 16) + 40, 4, al_map_rgb(255, 0, 50));
+						}
 					}
 				}
 				al_draw_filled_rectangle(pos_x, pos_y, pos_x + 16, pos_y + 16, al_map_rgb(148, 233, 7));
