@@ -98,7 +98,7 @@ int main(void)
 			if (count == 3)
 			{
 				tytul = false;
-				poziom = 5;
+				poziom = 1;
 			}
 		}
 		if (ev.type == ALLEGRO_EVENT_KEY_DOWN)
@@ -135,6 +135,7 @@ int main(void)
 				keys[UP] = false;
 				keys[LEFT] = false;
 				keys[DOWN] = false;
+				poziom++;
 				break;
 			case ALLEGRO_KEY_ESCAPE:
 				done = true;
