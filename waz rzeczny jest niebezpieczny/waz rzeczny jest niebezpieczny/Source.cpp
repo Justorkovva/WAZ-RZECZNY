@@ -52,13 +52,29 @@ int main(void)
 	al_register_event_source(event_queue, al_get_timer_event_source(timer));
 
 	ifstream plik;
+	ifstream plik2;
+	ifstream plik3;
+	ifstream plik4;
+	ifstream plik5;
 	plik.open("poziom1.txt");
+	plik2.open("poziom2.txt");
+	plik3.open("poziom3.txt");
+	plik4.open("poziom4.txt");
+	plik5.open("poziom5.txt");
 	short int poziom1[28][40];
+	short int poziom2[28][40];
+	short int poziom3[28][40];
+	short int poziom4[28][40];
+	short int poziom5[28][40];
 	for (int i = 0; i < 28; i++)
 	{
 		for(int j = 0; j < 40; j++)
 		{
-			plik>> poziom1[i][j]; //zrobic od razu w jednej petli wszystkie poziomy
+			plik  >> poziom1[i][j]; 
+			plik2 >> poziom2[i][j];
+			plik3 >> poziom3[i][j];
+			plik4 >> poziom4[i][j];
+			plik5 >> poziom5[i][j];
 		}
 	}
 
@@ -87,7 +103,6 @@ int main(void)
 				poziom = 1;
 			}
 		}
-		//poziomy w timerze
 		if (ev.type == ALLEGRO_EVENT_KEY_DOWN)
 		{
 			switch (ev.keyboard.keycode)
@@ -148,15 +163,70 @@ int main(void)
 					for (int j = 0; j < 40; j++)
 					{
 						if (poziom1[i][j] == 1)
-							al_draw_filled_rectangle(j * 16, (i * 16)+32, (j*16)+16, (i*16)+48, al_map_rgb(0, 0, 0));
+							al_draw_filled_rectangle(j * 16, (i * 16) + 32, (j * 16) + 16, (i * 16) + 48, al_map_rgb(0, 0, 0));
 					}
 				}
-				al_draw_filled_rectangle(pos_x, pos_y, pos_x + 16, pos_y + 16, al_map_rgb(0, 255, 0));
+				al_draw_filled_rectangle(pos_x, pos_y, pos_x + 16, pos_y + 16, al_map_rgb(148, 233, 7));
 				al_flip_display();
 
 			}
+			else if (poziom == 2)
+			{
+				al_clear_to_color(al_map_rgb(255, 255, 0));
+				for (int i = 0; i < 28; i++)
+				{
+					for (int j = 0; j < 40; j++)
+					{
+						if (poziom2[i][j] == 1)
+							al_draw_filled_rectangle(j * 16, (i * 16) + 32, (j * 16) + 16, (i * 16) + 48, al_map_rgb(0, 0, 0));
+					}
+				}
+				al_draw_filled_rectangle(pos_x, pos_y, pos_x + 16, pos_y + 16, al_map_rgb(148, 233, 7));
+				al_flip_display();
+			}
+			else if (poziom == 3)
+			{
+				al_clear_to_color(al_map_rgb(0, 255, 255));
+				for (int i = 0; i < 28; i++)
+				{
+					for (int j = 0; j < 40; j++)
+					{
+						if (poziom3[i][j] == 1)
+							al_draw_filled_rectangle(j * 16, (i * 16) + 32, (j * 16) + 16, (i * 16) + 48, al_map_rgb(0, 0, 0));
+					}
+				}
+				al_draw_filled_rectangle(pos_x, pos_y, pos_x + 16, pos_y + 16, al_map_rgb(148, 233, 7));
+				al_flip_display();
+			}
+			else if (poziom == 4)
+			{
+				al_clear_to_color(al_map_rgb(180, 0, 255));
+				for (int i = 0; i < 28; i++)
+				{
+					for (int j = 0; j < 40; j++)
+					{
+						if (poziom4[i][j] == 1)
+							al_draw_filled_rectangle(j * 16, (i * 16) + 32, (j * 16) + 16, (i * 16) + 48, al_map_rgb(0, 0, 0));
+					}
+				}
+				al_draw_filled_rectangle(pos_x, pos_y, pos_x + 16, pos_y + 16, al_map_rgb(148, 233, 7));
+				al_flip_display();
+			}
+			else if (poziom == 5)
+			{
+				al_clear_to_color(al_map_rgb(148, 90, 7));
+				for (int i = 0; i < 28; i++)
+				{
+					for (int j = 0; j < 40; j++)
+					{
+						if (poziom5[i][j] == 1)
+							al_draw_filled_rectangle(j * 16, (i * 16) + 32, (j * 16) + 16, (i * 16) + 48, al_map_rgb(0, 0, 0));
+					}
+				}
+				al_draw_filled_rectangle(pos_x, pos_y, pos_x + 16, pos_y + 16, al_map_rgb(148, 233, 7));
+				al_flip_display();
+			}
 		}
-
 	}
 
 
@@ -166,8 +236,3 @@ int main(void)
 	return 0;
 
 }
-
-
-
-
-
