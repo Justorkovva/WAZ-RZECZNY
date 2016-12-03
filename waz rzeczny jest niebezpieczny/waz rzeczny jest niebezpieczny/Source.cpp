@@ -1,7 +1,10 @@
-#include<iostream>
 #include<allegro5\allegro.h>
 #include<allegro5\allegro_primitives.h>
 #include<allegro5\allegro_image.h>
+#include<allegro5/allegro_font.h>
+#include<allegro5\allegro_ttf.h>
+#include<iostream>
+#include<cstdlib>
 #include<fstream>
 #include<string>
 #include<ctime>
@@ -18,6 +21,8 @@ int main(void)
 	al_init_primitives_addon();
 	al_install_keyboard();
 	al_init_image_addon();
+	al_init_font_addon();
+	al_init_ttf_addon();
 
 	int count = 0;
 	int wynik = 0;
@@ -27,14 +32,15 @@ int main(void)
 	bool done = false;
 	bool losowanie=true; //losuje elementy i wczytuje na nowo do tablicy, przydatne jak sie bedzie gralo na nowo
 	bool tytul = true;
-	int pos_x = 640 / 2;
-	int pos_y = 160;
-	short int p=0,p1,p2,p3,p4,p5,los,los2,i,j;
+	bool graj = false;
+	int pos_x = 304;
+	int pos_y = 96;
+	short int p=0,p1=2,p2=130,p3=150,p4=100,p5=180,los,los2,i,j;
 	short poziom = 0;
 
 	ALLEGRO_DISPLAY *okno = NULL;
 	ALLEGRO_EVENT_QUEUE *event_queue = NULL;
-	//ALLEGRO_FONT *czcionka = al_load_font("ALGER.ttf", 30, 0);
+	ALLEGRO_FONT *czcionka = al_load_font("ALGER.ttf", 30, 0);
 	//ALLEGRO_FONT *czcionka42 = al_load_font("ALGER.ttf", 42, 0);
 	ALLEGRO_TIMER *timer = NULL;
 	ALLEGRO_BITMAP *stronatytulowa = al_load_bitmap("waz.png");
@@ -98,6 +104,7 @@ int main(void)
 		
 		if(losowanie) //wrzuca z pliku do tablicy, losuje elementy i liczy ile ich jest
 		{
+			p = 0;
 			for ( i = 0; i < 28; i++)
 			{
 				for ( j = 0; j < 40; j++)
@@ -109,7 +116,7 @@ int main(void)
 					plik5 >> poziom5[i][j];
 				}
 			}
-			while (p<120)
+			while (p<p1)
 			{
 				los = rand() % 28;
 				los2 = rand() % 40;
@@ -120,7 +127,7 @@ int main(void)
 				}
 			}
 			p = 0;
-			while (p<130) //poziom2 elementy
+			while (p<p2) //poziom2 elementy
 			{
 				los = rand() % 28;
 				los2 = rand() % 40;
@@ -134,7 +141,7 @@ int main(void)
 				}
 			}
 			p = 0;
-			while (p<150)
+			while (p<p3)
 			{
 				los = rand() % 28;
 				los2 = rand() % 40;
@@ -148,7 +155,7 @@ int main(void)
 				}
 			}
 			p = 0;
-			while (p<100)
+			while (p<p4)
 			{
 				los = rand() % 28;
 				los2 = rand() % 40;
@@ -159,7 +166,7 @@ int main(void)
 				}
 			}
 			p = 0;
-			while (p<180)
+			while (p<p5)
 			{
 				los = rand() % 28;
 				los2 = rand() % 40;
@@ -174,8 +181,6 @@ int main(void)
 				}
 			}
 			p = 0;
-			//p1 = 0; p2 = 0; p3 = 0; p4 = 0; p5 = 0;
-
 			losowanie = false;
 		}
 
@@ -184,39 +189,59 @@ int main(void)
 			switch (ev.keyboard.keycode)
 			{
 			case ALLEGRO_KEY_UP:
-				keys[UP] = true;
-				keys[DOWN] = false;
-				keys[LEFT] = false;
-				keys[RIGHT] = false;
+				if (graj)
+				{
+					keys[UP] = true;
+					keys[DOWN] = false;
+					keys[LEFT] = false;
+					keys[RIGHT] = false;
+				}
 				break;
 
 			case ALLEGRO_KEY_DOWN:
-				keys[DOWN] = true;
-				keys[UP] = false;
-				keys[LEFT] = false;
-				keys[RIGHT] = false;
+				if (graj)
+				{
+					keys[DOWN] = true;
+					keys[UP] = false;
+					keys[LEFT] = false;
+					keys[RIGHT] = false;
+				}
 				break;
 			case ALLEGRO_KEY_LEFT:
-				keys[LEFT] = true;
-				keys[UP] = false;
-				keys[DOWN] = false;
-				keys[RIGHT] = false;
+				if (graj)
+				{
+					keys[LEFT] = true;
+					keys[UP] = false;
+					keys[DOWN] = false;
+					keys[RIGHT] = false;
+				}
 				break;
 			case ALLEGRO_KEY_RIGHT:
-				keys[RIGHT] = true;
-				keys[UP] = false;
-				keys[LEFT] = false;
-				keys[DOWN] = false;
+				if (graj)
+				{
+					keys[RIGHT] = true;
+					keys[UP] = false;
+					keys[LEFT] = false;
+					keys[DOWN] = false;
+				}
 				break;
 			case ALLEGRO_KEY_SPACE:
-				keys[RIGHT] = false;
-				keys[UP] = false;
-				keys[LEFT] = false;
-				keys[DOWN] = false;
-				poziom++;
+				if (!graj)
+				{
+					graj = true;
+					keys[RIGHT] = true;
+					p = 0;
+				}
 				break;
 			case ALLEGRO_KEY_ESCAPE:
 				done = true;
+				break;
+			case ALLEGRO_KEY_ENTER:
+				poziom++;
+				if(poziom==6)
+				{
+					poziom = 1;
+				}
 				break;
 			}
 		}
@@ -231,9 +256,18 @@ int main(void)
 			pos_y += keys[DOWN] * 16;
 			pos_x -= keys[LEFT] * 16;
 			pos_x += keys[RIGHT] * 16;
+			
 
 			if (poziom == 1)
 			{
+				//element zastapiony przez drogê
+				if (poziom1[((pos_y) / 16) - 2][(pos_x) / 16] == 2)
+				{
+					poziom1[((pos_y) / 16) - 2][(pos_x) / 16] = 0;
+					p++;
+					//waz rosnie
+				}
+
 				al_clear_to_color(al_map_rgb(255, 0, 0));
 				for ( i = 0; i < 28; i++)
 				{
@@ -244,9 +278,23 @@ int main(void)
 						else if (poziom1[i][j] == 2)
 						{
 							al_draw_filled_circle((j * 16) + 8, (i * 16) + 40, 4, al_map_rgb(255, 255, 255));
-							//al_draw_filled_rectangle(j * 16, (i * 16) + 32, (j * 16) + 16, (i * 16) + 48, al_map_rgb(255, 255, 255));
 						}
 					}
+				}
+				if(!graj)
+				{
+						al_draw_filled_rectangle(50, 200, 590, 280, al_map_rgb(255, 255, 255));
+						al_draw_text(czcionka, al_map_rgb(0, 0, 0), 70, 220, 0, "Wcisnij spacje, zeby rozpoczac");
+				}
+				if(p==p1)
+				{ 
+					poziom++;
+					graj = false;
+					keys[RIGHT] = false;
+					keys[UP] = false;
+					keys[LEFT] = false;
+					keys[DOWN] = false;
+					
 				}
 				al_draw_filled_rectangle(pos_x, pos_y, pos_x + 16, pos_y + 16, al_map_rgb(148, 233, 7));
 				al_flip_display();
@@ -254,6 +302,14 @@ int main(void)
 			}
 			else if (poziom == 2)
 			{
+				if (poziom2[((pos_y) / 16) - 2][(pos_x) / 16] == 2)
+				{
+					poziom2[((pos_y) / 16) - 2][(pos_x) / 16] = 0;
+					//jakis licznik ++
+					//waz rosnie
+				}
+
+
 				al_clear_to_color(al_map_rgb(255, 255, 0));
 				for (i = 0; i < 28; i++)
 				{
@@ -265,11 +321,24 @@ int main(void)
 							al_draw_filled_circle((j * 16) + 8, (i * 16) + 40, 4, al_map_rgb(255, 0, 255));
 					}
 				}
+				if (!graj)
+				{
+					al_draw_filled_rectangle(50, 200, 590, 280, al_map_rgb(255, 255, 255));
+					al_draw_text(czcionka, al_map_rgb(0, 0, 0), 70, 220, 0, "Wcisnij spacje, zeby rozpoczac");
+
+				}
 				al_draw_filled_rectangle(pos_x, pos_y, pos_x + 16, pos_y + 16, al_map_rgb(148, 233, 7));
 				al_flip_display();
 			}
 			else if (poziom == 3)
 			{
+				if (poziom3[((pos_y) / 16) - 2][(pos_x) / 16] == 2)
+				{
+					poziom3[((pos_y) / 16) - 2][(pos_x) / 16] = 0;
+					//jakis licznik ++
+					//waz rosnie
+				}
+
 				al_clear_to_color(al_map_rgb(0, 255, 255));
 				for ( i = 0; i < 28; i++)
 				{
@@ -281,11 +350,24 @@ int main(void)
 							al_draw_filled_circle((j * 16) + 8, (i * 16) + 40, 4, al_map_rgb(14, 0, 255));
 					}
 				}
+				if (!graj)
+				{
+					al_draw_filled_rectangle(50, 200, 590, 280, al_map_rgb(255, 255, 255));
+					al_draw_text(czcionka, al_map_rgb(0, 0, 0), 70, 220, 0, "Wcisnij spacje, zeby rozpoczac");
+
+				}
 				al_draw_filled_rectangle(pos_x, pos_y, pos_x + 16, pos_y + 16, al_map_rgb(148, 233, 7));
 				al_flip_display();
 			}
 			else if (poziom == 4)
 			{
+				if (poziom4[((pos_y) / 16) - 2][(pos_x) / 16] == 2)
+				{
+					poziom4[((pos_y) / 16) - 2][(pos_x) / 16] = 0;
+					//jakis licznik ++
+					//waz rosnie
+				}
+
 				al_clear_to_color(al_map_rgb(180, 0, 255));
 				for ( i = 0; i < 28; i++)
 				{
@@ -297,11 +379,24 @@ int main(void)
 							al_draw_filled_circle((j * 16) + 8, (i * 16) + 40, 4, al_map_rgb(255, 195, 2));
 					}
 				}
+				if (!graj)
+				{
+					al_draw_filled_rectangle(50, 200, 590, 280, al_map_rgb(255, 255, 255));
+					al_draw_text(czcionka, al_map_rgb(0, 0, 0), 70, 220, 0, "Wcisnij spacje, zeby rozpoczac");
+
+				}
 				al_draw_filled_rectangle(pos_x, pos_y, pos_x + 16, pos_y + 16, al_map_rgb(148, 233, 7));
 				al_flip_display();
 			}
 			else if (poziom == 5)
 			{
+				if (poziom5[((pos_y) / 16) - 2][(pos_x) / 16] == 2)
+				{
+					poziom5[((pos_y) / 16) - 2][(pos_x) / 16] = 0;
+					//jakis licznik ++
+					//waz rosnie
+				}
+
 				al_clear_to_color(al_map_rgb(248, 160, 17));
 				for ( i = 0; i < 28; i++)
 				{
@@ -317,6 +412,12 @@ int main(void)
 						}
 					}
 				}
+				if (!graj)
+				{
+					al_draw_filled_rectangle(50, 200, 590, 280, al_map_rgb(255, 255, 255));
+					al_draw_text(czcionka, al_map_rgb(0, 0, 0), 70, 220, 0, "Wcisnij spacje, zeby rozpoczac");
+
+				}
 				al_draw_filled_rectangle(pos_x, pos_y, pos_x + 16, pos_y + 16, al_map_rgb(148, 233, 7));
 				al_flip_display();
 			}
@@ -327,6 +428,7 @@ int main(void)
 	al_destroy_bitmap(stronatytulowa);
 	al_destroy_event_queue(event_queue);
 	al_destroy_display(okno);
+	al_destroy_font(czcionka);
 	return 0;
 
 }
