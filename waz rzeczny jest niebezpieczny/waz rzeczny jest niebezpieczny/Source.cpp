@@ -25,8 +25,9 @@ int main(void)
 	al_init_ttf_addon();
 
 	int count = 0;
-	int wynik = 0;
-	int FPS = 4;
+	short int FPS = 4;
+	short int zycie = 3;
+	long long int punkty = 0;
 
 	bool keys[4] = { false, false, false, false };
 	bool done = false;
@@ -41,9 +42,14 @@ int main(void)
 	ALLEGRO_DISPLAY *okno = NULL;
 	ALLEGRO_EVENT_QUEUE *event_queue = NULL;
 	ALLEGRO_FONT *czcionka = al_load_font("ALGER.ttf", 30, 0);
-	//ALLEGRO_FONT *czcionka42 = al_load_font("ALGER.ttf", 42, 0);
+	ALLEGRO_FONT *malaczcionka = al_load_font("ALGER.ttf", 22, 0);
 	ALLEGRO_TIMER *timer = NULL;
 	ALLEGRO_BITMAP *stronatytulowa = al_load_bitmap("waz.png");
+	ALLEGRO_BITMAP *serce1 = al_load_bitmap("serce1.png");
+	ALLEGRO_BITMAP *serce2 = al_load_bitmap("serce2.png");
+	ALLEGRO_BITMAP *serce3 = al_load_bitmap("serce3.png");
+	ALLEGRO_BITMAP *serce4 = al_load_bitmap("serce4.png");
+	ALLEGRO_BITMAP *serce5 = al_load_bitmap("serce5.png");
 
 	if (!al_init())
 	{
@@ -230,7 +236,6 @@ int main(void)
 				{
 					graj = true;
 					keys[RIGHT] = true;
-					p = 0;
 				}
 				break;
 			case ALLEGRO_KEY_ESCAPE:
@@ -265,10 +270,16 @@ int main(void)
 				{
 					poziom1[((pos_y) / 16) - 2][(pos_x) / 16] = 0;
 					p++;
+					punkty += 50;
 					//waz rosnie
 				}
 
 				al_clear_to_color(al_map_rgb(255, 0, 0));
+				al_draw_text(malaczcionka, al_map_rgb(255, 255, 255), 320, 4, ALLEGRO_ALIGN_CENTRE, "Poziom  1");
+				al_draw_textf(malaczcionka, al_map_rgb(255, 255, 255), 620, 4, ALLEGRO_ALIGN_RIGHT, "%i",punkty);
+				al_draw_bitmap(serce1, 10, 0, 0);
+				al_draw_textf(malaczcionka, al_map_rgb(255, 255, 255), 60, 4, ALLEGRO_ALIGN_LEFT, " -   %i", zycie);
+				
 				for ( i = 0; i < 28; i++)
 				{
 					for ( j = 0; j < 40; j++)
@@ -284,7 +295,7 @@ int main(void)
 				if(!graj)
 				{
 						al_draw_filled_rectangle(50, 200, 590, 280, al_map_rgb(255, 255, 255));
-						al_draw_text(czcionka, al_map_rgb(0, 0, 0), 70, 220, 0, "Wcisnij spacje, zeby rozpoczac");
+						al_draw_text(czcionka, al_map_rgb(0, 0, 0), 320, 220, ALLEGRO_ALIGN_CENTRE, "Wcisnij spacje, zeby rozpoczac");
 				}
 				al_draw_filled_rectangle(pos_x, pos_y, pos_x + 16, pos_y + 16, al_map_rgb(148, 233, 7));
 				al_flip_display();
@@ -299,6 +310,7 @@ int main(void)
 					keys[DOWN] = false;
 					pos_x = 16;
 					pos_y = 112;
+					punkty += 2000;
 					p = 0;
 				}
 
@@ -309,10 +321,15 @@ int main(void)
 				{
 					poziom2[((pos_y) / 16) - 2][(pos_x) / 16] = 0;
 					p++;
+					punkty += 50;
 					//waz rosnie
 				}
 
-				al_clear_to_color(al_map_rgb(255, 230, 70));
+				al_clear_to_color(al_map_rgb(255, 230, 128));
+				al_draw_text(malaczcionka, al_map_rgb(255, 0, 128), 320, 4, ALLEGRO_ALIGN_CENTRE, "Poziom  2");
+				al_draw_textf(malaczcionka, al_map_rgb(255, 0, 128), 620, 4, ALLEGRO_ALIGN_RIGHT, "%i", punkty);
+				al_draw_bitmap(serce2, 10, 0, 0);
+				al_draw_textf(malaczcionka, al_map_rgb(255, 0, 128), 60, 4, ALLEGRO_ALIGN_LEFT, " -   %i", zycie);
 				for (i = 0; i < 28; i++)
 				{
 					for ( j = 0; j < 40; j++)
@@ -320,13 +337,13 @@ int main(void)
 						if (poziom2[i][j] == 1)
 							al_draw_filled_rectangle(j * 16, (i * 16) + 32, (j * 16) + 16, (i * 16) + 48, al_map_rgb(0, 0, 0));
 						else if (poziom2[i][j] == 2)
-							al_draw_filled_circle((j * 16) + 8, (i * 16) + 40, 4, al_map_rgb(255, 0, 255));
+							al_draw_filled_circle((j * 16) + 8, (i * 16) + 40, 4, al_map_rgb(255, 0, 128));
 					}
 				}
 				if (!graj)
 				{
 					al_draw_filled_rectangle(50, 200, 590, 280, al_map_rgb(255, 255, 255));
-					al_draw_text(czcionka, al_map_rgb(0, 0, 0), 70, 220, 0, "Wcisnij spacje, zeby rozpoczac");
+					al_draw_text(czcionka, al_map_rgb(0, 0, 0), 320, 220, ALLEGRO_ALIGN_CENTRE, "Wcisnij spacje, zeby rozpoczac");
 
 				}
 				al_draw_filled_rectangle(pos_x, pos_y, pos_x + 16, pos_y + 16, al_map_rgb(148, 233, 7));
@@ -341,6 +358,7 @@ int main(void)
 					keys[DOWN] = false;
 					pos_x = 272;
 					pos_y = 48;
+					punkty += 2000;
 					p = 0;
 				}
 			}
@@ -350,10 +368,15 @@ int main(void)
 				{
 					poziom3[((pos_y) / 16) - 2][(pos_x) / 16] = 0;
 					p++;
+					punkty += 50;
 					//waz rosnie
 				}
 
-				al_clear_to_color(al_map_rgb(0, 255, 255));
+				al_clear_to_color(al_map_rgb(70, 255, 255));
+				al_draw_text(malaczcionka, al_map_rgb(14, 0, 255), 320, 4, ALLEGRO_ALIGN_CENTRE, "Poziom  3");
+				al_draw_textf(malaczcionka, al_map_rgb(14, 0, 255), 620, 4, ALLEGRO_ALIGN_RIGHT, "%i", punkty);
+				al_draw_bitmap(serce3, 10, 0, 0);
+				al_draw_textf(malaczcionka, al_map_rgb(14, 0, 255), 60, 4, ALLEGRO_ALIGN_LEFT, " -   %i", zycie);
 				for ( i = 0; i < 28; i++)
 				{
 					for (j = 0; j < 40; j++)
@@ -367,7 +390,7 @@ int main(void)
 				if (!graj)
 				{
 					al_draw_filled_rectangle(50, 200, 590, 280, al_map_rgb(255, 255, 255));
-					al_draw_text(czcionka, al_map_rgb(0, 0, 0), 70, 220, 0, "Wcisnij spacje, zeby rozpoczac");
+					al_draw_text(czcionka, al_map_rgb(0, 0, 0), 320, 220, ALLEGRO_ALIGN_CENTRE, "Wcisnij spacje, zeby rozpoczac");
 
 				}
 				al_draw_filled_rectangle(pos_x, pos_y, pos_x + 16, pos_y + 16, al_map_rgb(148, 233, 7));
@@ -382,6 +405,7 @@ int main(void)
 					keys[DOWN] = false;
 					pos_x = 256;
 					pos_y = 128;
+					punkty += 2000;
 					p = 0;
 				}
 			}
@@ -391,10 +415,15 @@ int main(void)
 				{
 					poziom4[((pos_y) / 16) - 2][(pos_x) / 16] = 0;
 					p++;
+					punkty += 50;
 					//waz rosnie
 				}
 
 				al_clear_to_color(al_map_rgb(180, 0, 255));
+				al_draw_text(malaczcionka, al_map_rgb(255, 195, 2), 320, 4, ALLEGRO_ALIGN_CENTRE, "Poziom  4");
+				al_draw_textf(malaczcionka, al_map_rgb(255, 195, 2), 620, 4, ALLEGRO_ALIGN_RIGHT, "%i", punkty);
+				al_draw_bitmap(serce4, 10, 0, 0);
+				al_draw_textf(malaczcionka, al_map_rgb(255, 195, 2), 60, 4, ALLEGRO_ALIGN_LEFT, " -   %i", zycie);
 				for ( i = 0; i < 28; i++)
 				{
 					for ( j = 0; j < 40; j++)
@@ -408,7 +437,7 @@ int main(void)
 				if (!graj)
 				{
 					al_draw_filled_rectangle(50, 200, 590, 280, al_map_rgb(255, 255, 255));
-					al_draw_text(czcionka, al_map_rgb(0, 0, 0), 70, 220, 0, "Wcisnij spacje, zeby rozpoczac");
+					al_draw_text(czcionka, al_map_rgb(0, 0, 0), 320, 220, ALLEGRO_ALIGN_CENTRE, "Wcisnij spacje, zeby rozpoczac");
 
 				}
 				al_draw_filled_rectangle(pos_x, pos_y, pos_x + 16, pos_y + 16, al_map_rgb(148, 233, 7));
@@ -423,6 +452,7 @@ int main(void)
 					keys[DOWN] = false;
 					pos_x = 304;
 					pos_y = 64;
+					punkty += 2000;
 					p = 0;
 				}
 			}
@@ -432,10 +462,15 @@ int main(void)
 				{
 					poziom5[((pos_y) / 16) - 2][(pos_x) / 16] = 0;
 					p++;
+					punkty += 50;
 					//waz rosnie
 				}
 
 				al_clear_to_color(al_map_rgb(248, 160, 17));
+				al_draw_text(malaczcionka, al_map_rgb(255, 0, 50), 320, 4, ALLEGRO_ALIGN_CENTRE, "Poziom  5");
+				al_draw_textf(malaczcionka, al_map_rgb(255, 0, 50), 620, 4, ALLEGRO_ALIGN_RIGHT, "%i", punkty);
+				al_draw_bitmap(serce5, 10, 0, 0);
+				al_draw_textf(malaczcionka, al_map_rgb(255, 0, 50), 60, 4, ALLEGRO_ALIGN_LEFT, " -   %i", zycie);
 				for ( i = 0; i < 28; i++)
 				{
 					for ( j = 0; j < 40; j++)
@@ -453,7 +488,7 @@ int main(void)
 				if (!graj)
 				{
 					al_draw_filled_rectangle(50, 200, 590, 280, al_map_rgb(255, 255, 255));
-					al_draw_text(czcionka, al_map_rgb(0, 0, 0), 70, 220, 0, "Wcisnij spacje, zeby rozpoczac");
+					al_draw_text(czcionka, al_map_rgb(0, 0, 0), 320, 220, ALLEGRO_ALIGN_CENTRE, "Wcisnij spacje, zeby rozpoczac");
 
 				}
 				al_draw_filled_rectangle(pos_x, pos_y, pos_x + 16, pos_y + 16, al_map_rgb(148, 233, 7));
@@ -463,6 +498,7 @@ int main(void)
 				{
 					//cos na zasadzie strony tytulowej, ale gratulacje przejscia gry zrobic, i dopiero wtedy poziom=1
 					// i losowanie na nowo zrobic
+					losowanie = true;
 					poziom=1;
 					graj = false;
 					keys[RIGHT] = false;
@@ -471,6 +507,7 @@ int main(void)
 					keys[DOWN] = false;
 					pos_x = 288;
 					pos_y = 96;
+					punkty += 2000;
 					p = 0;
 				}
 			}
@@ -479,9 +516,15 @@ int main(void)
 
 
 	al_destroy_bitmap(stronatytulowa);
+	al_destroy_bitmap(serce1);
+	al_destroy_bitmap(serce2);
+	al_destroy_bitmap(serce3);
+	al_destroy_bitmap(serce4);
+	al_destroy_bitmap(serce5);
 	al_destroy_event_queue(event_queue);
 	al_destroy_display(okno);
 	al_destroy_font(czcionka);
+	al_destroy_font(malaczcionka);
 	return 0;
 
 }
