@@ -33,9 +33,9 @@ int main(void)
 	bool losowanie=true; //losuje elementy i wczytuje na nowo do tablicy, przydatne jak sie bedzie gralo na nowo
 	bool tytul = true;
 	bool graj = false;
-	int pos_x = 304;
+	int pos_x = 288;
 	int pos_y = 96;
-	short int p=0,p1=2,p2=130,p3=150,p4=100,p5=180,los,los2,i,j;
+	short int p=0,p1=120,p2=130,p3=150,p4=100,p5=180,los,los2,i,j; //120 130 150 100 180
 	short poziom = 0;
 
 	ALLEGRO_DISPLAY *okno = NULL;
@@ -286,18 +286,21 @@ int main(void)
 						al_draw_filled_rectangle(50, 200, 590, 280, al_map_rgb(255, 255, 255));
 						al_draw_text(czcionka, al_map_rgb(0, 0, 0), 70, 220, 0, "Wcisnij spacje, zeby rozpoczac");
 				}
-				if(p==p1)
-				{ 
+				al_draw_filled_rectangle(pos_x, pos_y, pos_x + 16, pos_y + 16, al_map_rgb(148, 233, 7));
+				al_flip_display();
+
+				if (p == p1)
+				{
 					poziom++;
 					graj = false;
 					keys[RIGHT] = false;
 					keys[UP] = false;
 					keys[LEFT] = false;
 					keys[DOWN] = false;
-					
+					pos_x = 16;
+					pos_y = 112;
+					p = 0;
 				}
-				al_draw_filled_rectangle(pos_x, pos_y, pos_x + 16, pos_y + 16, al_map_rgb(148, 233, 7));
-				al_flip_display();
 
 			}
 			else if (poziom == 2)
@@ -305,12 +308,11 @@ int main(void)
 				if (poziom2[((pos_y) / 16) - 2][(pos_x) / 16] == 2)
 				{
 					poziom2[((pos_y) / 16) - 2][(pos_x) / 16] = 0;
-					//jakis licznik ++
+					p++;
 					//waz rosnie
 				}
 
-
-				al_clear_to_color(al_map_rgb(255, 255, 0));
+				al_clear_to_color(al_map_rgb(255, 230, 70));
 				for (i = 0; i < 28; i++)
 				{
 					for ( j = 0; j < 40; j++)
@@ -329,13 +331,25 @@ int main(void)
 				}
 				al_draw_filled_rectangle(pos_x, pos_y, pos_x + 16, pos_y + 16, al_map_rgb(148, 233, 7));
 				al_flip_display();
+				if (p == p2)
+				{
+					poziom++;
+					graj = false;
+					keys[RIGHT] = false;
+					keys[UP] = false;
+					keys[LEFT] = false;
+					keys[DOWN] = false;
+					pos_x = 272;
+					pos_y = 48;
+					p = 0;
+				}
 			}
 			else if (poziom == 3)
 			{
 				if (poziom3[((pos_y) / 16) - 2][(pos_x) / 16] == 2)
 				{
 					poziom3[((pos_y) / 16) - 2][(pos_x) / 16] = 0;
-					//jakis licznik ++
+					p++;
 					//waz rosnie
 				}
 
@@ -358,13 +372,25 @@ int main(void)
 				}
 				al_draw_filled_rectangle(pos_x, pos_y, pos_x + 16, pos_y + 16, al_map_rgb(148, 233, 7));
 				al_flip_display();
+				if (p == p3)
+				{
+					poziom++;
+					graj = false;
+					keys[RIGHT] = false;
+					keys[UP] = false;
+					keys[LEFT] = false;
+					keys[DOWN] = false;
+					pos_x = 256;
+					pos_y = 128;
+					p = 0;
+				}
 			}
 			else if (poziom == 4)
 			{
 				if (poziom4[((pos_y) / 16) - 2][(pos_x) / 16] == 2)
 				{
 					poziom4[((pos_y) / 16) - 2][(pos_x) / 16] = 0;
-					//jakis licznik ++
+					p++;
 					//waz rosnie
 				}
 
@@ -387,13 +413,25 @@ int main(void)
 				}
 				al_draw_filled_rectangle(pos_x, pos_y, pos_x + 16, pos_y + 16, al_map_rgb(148, 233, 7));
 				al_flip_display();
+				if (p == p4)
+				{
+					poziom++;
+					graj = false;
+					keys[RIGHT] = false;
+					keys[UP] = false;
+					keys[LEFT] = false;
+					keys[DOWN] = false;
+					pos_x = 304;
+					pos_y = 64;
+					p = 0;
+				}
 			}
 			else if (poziom == 5)
 			{
 				if (poziom5[((pos_y) / 16) - 2][(pos_x) / 16] == 2)
 				{
 					poziom5[((pos_y) / 16) - 2][(pos_x) / 16] = 0;
-					//jakis licznik ++
+					p++;
 					//waz rosnie
 				}
 
@@ -420,6 +458,21 @@ int main(void)
 				}
 				al_draw_filled_rectangle(pos_x, pos_y, pos_x + 16, pos_y + 16, al_map_rgb(148, 233, 7));
 				al_flip_display();
+
+				if (p == p5)
+				{
+					//cos na zasadzie strony tytulowej, ale gratulacje przejscia gry zrobic, i dopiero wtedy poziom=1
+					// i losowanie na nowo zrobic
+					poziom=1;
+					graj = false;
+					keys[RIGHT] = false;
+					keys[UP] = false;
+					keys[LEFT] = false;
+					keys[DOWN] = false;
+					pos_x = 288;
+					pos_y = 96;
+					p = 0;
+				}
 			}
 		}
 	}
