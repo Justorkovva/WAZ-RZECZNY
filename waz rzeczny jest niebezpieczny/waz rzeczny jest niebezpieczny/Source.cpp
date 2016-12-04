@@ -12,7 +12,8 @@ using namespace std;
 
 //predkosc zwieksza sie w czasie, dodatkowo po przejsciu wszystkich lvl zaczyna sie od nowa z wieksza predkoscia
 //trzeba wymyslic funkcje pojawiania sie kolejnych cz³onow (easy), ale potem zmieniania polozenia przy skrecaniu
-
+//jakas bitmapa na zakonczenie gry dla przegrales i dla 5 poziomow ukonczonych
+//zeby sie nie zatrzymywalo na prostej, chyba ze kosztem predkosci. jakas funkcja w czasie, ze rysuje co % iles, a potem % mniej
 
 enum KEYS { DOWN, UP, LEFT, RIGHT };
 int main(void)
@@ -25,7 +26,7 @@ int main(void)
 	al_init_ttf_addon();
 
 	int count = 0;
-	short int FPS = 4;
+	short int FPS = 6;
 	short int zycie = 3;
 	long long int punkty = 0;
 
@@ -34,6 +35,7 @@ int main(void)
 	bool losowanie=true; //losuje elementy i wczytuje na nowo do tablicy, przydatne jak sie bedzie gralo na nowo
 	bool tytul = true;
 	bool graj = false;
+	bool przegrales = true;
 	int pos_x = 288;
 	int pos_y = 96;
 	short int p=0,p1=120,p2=130,p3=150,p4=100,p5=180,los,los2,i,j; //120 130 150 100 180
@@ -139,7 +141,7 @@ int main(void)
 				los2 = rand() % 40;
 				if (poziom2[los][los2] == 0)
 				{
-					if (los != 20 && los2 != 28)
+					if ((los != 26 && los2 != 20) && (los != 9 && los2 != 12) && (los != 18 && los2 != 12) && (los != 8 && los2 != 21) && (los != 19 && los2 != 21))
 					{
 						poziom2[los][los2] = 2;
 						p++;
@@ -257,12 +259,7 @@ int main(void)
 		else if (ev.type == ALLEGRO_EVENT_TIMER)
 		{
 			count++;
-			pos_y -= keys[UP] * 16;
-			pos_y += keys[DOWN] * 16;
-			pos_x -= keys[LEFT] * 16;
-			pos_x += keys[RIGHT] * 16;
 			
-
 			if (poziom == 1)
 			{
 				//element zastapiony przez drogê
@@ -313,6 +310,116 @@ int main(void)
 					punkty += 2000;
 					p = 0;
 				}
+				//skrecanie
+				if (keys[RIGHT])
+				{
+					if (poziom1[((pos_y) / 16) - 2][((pos_x) / 16) + 1] == 1)
+					{
+						keys[RIGHT] = false;
+
+						if ((poziom1[((pos_y) / 16) - 3][((pos_x) / 16)] == 1) && (poziom1[((pos_y) / 16) - 1][((pos_x) / 16)] == 1))
+						{
+							zycie -= 1;
+							graj = false;
+							pos_x = 288;
+							pos_y = 96;
+
+						}
+						else if (poziom1[((pos_y) / 16) - 3][((pos_x) / 16)] == 1)
+						{
+							keys[DOWN] = true;
+						}
+						else if (poziom1[((pos_y) / 16) - 1][((pos_x) / 16)] == 1)
+						{
+							keys[UP] = true;
+						}
+					}
+					else
+					{
+						pos_x += keys[RIGHT] * 16;
+					}
+				}
+				else if (keys[LEFT])
+				{
+					if (poziom1[((pos_y) / 16) - 2][((pos_x) / 16) - 1] == 1)
+					{
+						keys[LEFT] = false;
+
+						if ((poziom1[((pos_y) / 16) - 3][((pos_x) / 16)] == 1) && (poziom1[((pos_y) / 16) - 1][((pos_x) / 16)] == 1))
+						{
+							zycie -= 1;
+							graj = false;
+							pos_x = 288;
+							pos_y = 96;
+						}
+						else if (poziom1[((pos_y) / 16) - 3][((pos_x) / 16)] == 1)
+						{
+							keys[DOWN] = true;
+						}
+						else if (poziom1[((pos_y) / 16) - 1][((pos_x) / 16)] == 1)
+						{
+							keys[UP] = true;
+						}
+					}
+					else
+					{
+						pos_x -= keys[LEFT] * 16;
+					}
+				}
+				else if (keys[UP])
+				{
+					if (poziom1[((pos_y) / 16) - 3][((pos_x) / 16)] == 1)
+					{
+						keys[UP] = false;
+
+						if ((poziom1[((pos_y) / 16) - 2][((pos_x) / 16) + 1] == 1) && (poziom1[((pos_y) / 16) - 2][((pos_x) / 16) - 1] == 1))
+						{
+							zycie -= 1;
+							graj = false;
+							pos_x = 288;
+							pos_y = 96;
+						}
+						else if (poziom1[((pos_y) / 16) - 2][((pos_x) / 16) + 1] == 1)
+						{
+							keys[LEFT] = true;
+						}
+						else if (poziom1[((pos_y) / 16) - 2][((pos_x) / 16) - 1] == 1)
+						{
+							keys[RIGHT] = true;
+						}
+					}
+					else
+					{
+						pos_y -= keys[UP] * 16;
+					}
+				}
+				else if (keys[DOWN])
+				{
+					if (poziom1[((pos_y) / 16) - 1][((pos_x) / 16)] == 1)
+					{
+						keys[DOWN] = false;
+
+						if ((poziom1[((pos_y) / 16) - 2][((pos_x) / 16) + 1] == 1) && (poziom1[((pos_y) / 16) - 2][((pos_x) / 16) - 1] == 1))
+						{
+							zycie -= 1;
+							graj = false;
+							pos_x = 288;
+							pos_y = 96;
+						}
+						else if (poziom1[((pos_y) / 16) - 2][((pos_x) / 16) + 1] == 1)
+						{
+							keys[LEFT] = true;
+						}
+						else if (poziom1[((pos_y) / 16) - 2][((pos_x) / 16) - 1] == 1)
+						{
+							keys[RIGHT] = true;
+						}
+					}
+					else
+					{
+						pos_y += keys[DOWN] * 16;
+					}
+				}
 
 			}
 			else if (poziom == 2)
@@ -361,6 +468,115 @@ int main(void)
 					punkty += 2000;
 					p = 0;
 				}
+				if (keys[RIGHT])
+				{
+					if (poziom2[((pos_y) / 16) - 2][((pos_x) / 16) + 1] == 1)
+					{
+						keys[RIGHT] = false;
+
+						if ((poziom2[((pos_y) / 16) - 3][((pos_x) / 16)] == 1) && (poziom2[((pos_y) / 16) - 1][((pos_x) / 16)] == 1))
+						{
+							zycie -= 1;
+							graj = false;
+							pos_x = 16;
+							pos_y = 112;
+
+						}
+						else if (poziom2[((pos_y) / 16) - 3][((pos_x) / 16)] == 1)
+						{
+							keys[DOWN] = true;
+						}
+						else if (poziom2[((pos_y) / 16) - 1][((pos_x) / 16)] == 1)
+						{
+							keys[UP] = true;
+						}
+					}
+					else
+					{
+						pos_x += keys[RIGHT] * 16;
+					}
+				}
+				else if (keys[LEFT])
+				{
+					if (poziom2[((pos_y) / 16) - 2][((pos_x) / 16) - 1] == 1)
+					{
+						keys[LEFT] = false;
+
+						if ((poziom2[((pos_y) / 16) - 3][((pos_x) / 16)] == 1) && (poziom2[((pos_y) / 16) - 1][((pos_x) / 16)] == 1))
+						{
+							zycie -= 1;
+							graj = false;
+							pos_x = 16;
+							pos_y = 112;
+						}
+						else if (poziom2[((pos_y) / 16) - 3][((pos_x) / 16)] == 1)
+						{
+							keys[DOWN] = true;
+						}
+						else if (poziom2[((pos_y) / 16) - 1][((pos_x) / 16)] == 1)
+						{
+							keys[UP] = true;
+						}
+					}
+					else
+					{
+						pos_x -= keys[LEFT] * 16;
+					}
+				}
+				else if (keys[UP])
+				{
+					if (poziom2[((pos_y) / 16) - 3][((pos_x) / 16)] == 1)
+					{
+						keys[UP] = false;
+
+						if ((poziom2[((pos_y) / 16) - 2][((pos_x) / 16) + 1] == 1) && (poziom2[((pos_y) / 16) - 2][((pos_x) / 16) - 1] == 1))
+						{
+							zycie -= 1;
+							graj = false;
+							pos_x = 16;
+							pos_y = 112;
+						}
+						else if (poziom2[((pos_y) / 16) - 2][((pos_x) / 16) + 1] == 1)
+						{
+							keys[LEFT] = true;
+						}
+						else if (poziom2[((pos_y) / 16) - 2][((pos_x) / 16) - 1] == 1)
+						{
+							keys[RIGHT] = true;
+						}
+					}
+					else
+					{
+						pos_y -= keys[UP] * 16;
+					}
+				}
+				else if (keys[DOWN])
+				{
+					if (poziom2[((pos_y) / 16) - 1][((pos_x) / 16)] == 1)
+					{
+						keys[DOWN] = false;
+
+						if ((poziom2[((pos_y) / 16) - 2][((pos_x) / 16) + 1] == 1) && (poziom2[((pos_y) / 16) - 2][((pos_x) / 16) - 1] == 1))
+						{
+							zycie -= 1;
+							graj = false;
+							pos_x = 16;
+							pos_y = 112;
+						}
+						else if (poziom2[((pos_y) / 16) - 2][((pos_x) / 16) + 1] == 1)
+						{
+							keys[LEFT] = true;
+						}
+						else if (poziom2[((pos_y) / 16) - 2][((pos_x) / 16) - 1] == 1)
+						{
+							keys[RIGHT] = true;
+						}
+					}
+					else
+					{
+						pos_y += keys[DOWN] * 16;
+					}
+				}
 			}
 			else if (poziom == 3)
 			{
@@ -408,6 +624,116 @@ int main(void)
 					punkty += 2000;
 					p = 0;
 				}
+				if (keys[RIGHT])
+				{
+					if (poziom3[((pos_y) / 16) - 2][((pos_x) / 16) + 1] == 1)
+					{
+						keys[RIGHT] = false;
+
+						if ((poziom3[((pos_y) / 16) - 3][((pos_x) / 16)] == 1) && (poziom3[((pos_y) / 16) - 1][((pos_x) / 16)] == 1))
+						{
+							zycie -= 1;
+							graj = false;
+							pos_x = 256;
+							pos_y = 128;
+
+						}
+						else if (poziom3[((pos_y) / 16) - 3][((pos_x) / 16)] == 1)
+						{
+							keys[DOWN] = true;
+						}
+						else if (poziom3[((pos_y) / 16) - 1][((pos_x) / 16)] == 1)
+						{
+							keys[UP] = true;
+						}
+					}
+					else
+					{
+						pos_x += keys[RIGHT] * 16;
+					}
+				}
+				else if (keys[LEFT])
+				{
+					if (poziom3[((pos_y) / 16) - 2][((pos_x) / 16) - 1] == 1)
+					{
+						keys[LEFT] = false;
+
+						if ((poziom3[((pos_y) / 16) - 3][((pos_x) / 16)] == 1) && (poziom3[((pos_y) / 16) - 1][((pos_x) / 16)] == 1))
+						{
+							zycie -= 1;
+							graj = false;
+							pos_x = 256;
+							pos_y = 128;
+						}
+						else if (poziom3[((pos_y) / 16) - 3][((pos_x) / 16)] == 1)
+						{
+							keys[DOWN] = true;
+						}
+						else if (poziom3[((pos_y) / 16) - 1][((pos_x) / 16)] == 1)
+						{
+							keys[UP] = true;
+						}
+					}
+					else
+					{
+						pos_x -= keys[LEFT] * 16;
+					}
+				}
+				else if (keys[UP])
+				{
+					if (poziom3[((pos_y) / 16) - 3][((pos_x) / 16)] == 1)
+					{
+						keys[UP] = false;
+
+						if ((poziom3[((pos_y) / 16) - 2][((pos_x) / 16) + 1] == 1) && (poziom3[((pos_y) / 16) - 2][((pos_x) / 16) - 1] == 1))
+						{
+							zycie -= 1;
+							graj = false;
+							pos_x = 256;
+							pos_y = 128;
+						}
+						else if (poziom3[((pos_y) / 16) - 2][((pos_x) / 16) + 1] == 1)
+						{
+							keys[LEFT] = true;
+						}
+						else if (poziom3[((pos_y) / 16) - 2][((pos_x) / 16) - 1] == 1)
+						{
+							keys[RIGHT] = true;
+						}
+					}
+					else
+					{
+						pos_y -= keys[UP] * 16;
+					}
+				}
+				else if (keys[DOWN])
+				{
+					if (poziom3[((pos_y) / 16) - 1][((pos_x) / 16)] == 1)
+					{
+						keys[DOWN] = false;
+
+						if ((poziom3[((pos_y) / 16) - 2][((pos_x) / 16) + 1] == 1) && (poziom3[((pos_y) / 16) - 2][((pos_x) / 16) - 1] == 1))
+						{
+							zycie -= 1;
+							graj = false;
+							pos_x = 256;
+							pos_y = 128;
+						}
+						else if (poziom3[((pos_y) / 16) - 2][((pos_x) / 16) + 1] == 1)
+						{
+							keys[LEFT] = true;
+						}
+						else if (poziom3[((pos_y) / 16) - 2][((pos_x) / 16) - 1] == 1)
+						{
+							keys[RIGHT] = true;
+						}
+					}
+					else
+					{
+						pos_y += keys[DOWN] * 16;
+					}
+				}
+
 			}
 			else if (poziom == 4)
 			{
@@ -454,6 +780,115 @@ int main(void)
 					pos_y = 64;
 					punkty += 2000;
 					p = 0;
+				}
+				if (keys[RIGHT])
+				{
+					if (poziom4[((pos_y) / 16) - 2][((pos_x) / 16) + 1] == 1)
+					{
+						keys[RIGHT] = false;
+
+						if ((poziom4[((pos_y) / 16) - 3][((pos_x) / 16)] == 1) && (poziom4[((pos_y) / 16) - 1][((pos_x) / 16)] == 1))
+						{
+							zycie -= 1;
+							graj = false;
+							pos_x = 304;
+							pos_y = 64;
+
+						}
+						else if (poziom4[((pos_y) / 16) - 3][((pos_x) / 16)] == 1)
+						{
+							keys[DOWN] = true;
+						}
+						else if (poziom4[((pos_y) / 16) - 1][((pos_x) / 16)] == 1)
+						{
+							keys[UP] = true;
+						}
+					}
+					else
+					{
+						pos_x += keys[RIGHT] * 16;
+					}
+				}
+				else if (keys[LEFT])
+				{
+					if (poziom4[((pos_y) / 16) - 2][((pos_x) / 16) - 1] == 1)
+					{
+						keys[LEFT] = false;
+
+						if ((poziom4[((pos_y) / 16) - 3][((pos_x) / 16)] == 1) && (poziom4[((pos_y) / 16) - 1][((pos_x) / 16)] == 1))
+						{
+							zycie -= 1;
+							graj = false;
+							pos_x = 304;
+							pos_y = 64;
+						}
+						else if (poziom4[((pos_y) / 16) - 3][((pos_x) / 16)] == 1)
+						{
+							keys[DOWN] = true;
+						}
+						else if (poziom4[((pos_y) / 16) - 1][((pos_x) / 16)] == 1)
+						{
+							keys[UP] = true;
+						}
+					}
+					else
+					{
+						pos_x -= keys[LEFT] * 16;
+					}
+				}
+				else if (keys[UP])
+				{
+					if (poziom4[((pos_y) / 16) - 3][((pos_x) / 16)] == 1)
+					{
+						keys[UP] = false;
+
+						if ((poziom4[((pos_y) / 16) - 2][((pos_x) / 16) + 1] == 1) && (poziom4[((pos_y) / 16) - 2][((pos_x) / 16) - 1] == 1))
+						{
+							zycie -= 1;
+							graj = false;
+							pos_x = 304;
+							pos_y = 64;
+						}
+						else if (poziom4[((pos_y) / 16) - 2][((pos_x) / 16) + 1] == 1)
+						{
+							keys[LEFT] = true;
+						}
+						else if (poziom4[((pos_y) / 16) - 2][((pos_x) / 16) - 1] == 1)
+						{
+							keys[RIGHT] = true;
+						}
+					}
+					else
+					{
+						pos_y -= keys[UP] * 16;
+					}
+				}
+				else if (keys[DOWN])
+				{
+					if (poziom4[((pos_y) / 16) - 1][((pos_x) / 16)] == 1)
+					{
+						keys[DOWN] = false;
+
+						if ((poziom4[((pos_y) / 16) - 2][((pos_x) / 16) + 1] == 1) && (poziom4[((pos_y) / 16) - 2][((pos_x) / 16) - 1] == 1))
+						{
+							zycie -= 1;
+							graj = false;
+							pos_x = 304;
+							pos_y = 64;
+						}
+						else if (poziom4[((pos_y) / 16) - 2][((pos_x) / 16) + 1] == 1)
+						{
+							keys[LEFT] = true;
+						}
+						else if (poziom4[((pos_y) / 16) - 2][((pos_x) / 16) - 1] == 1)
+						{
+							keys[RIGHT] = true;
+						}
+					}
+					else
+					{
+						pos_y += keys[DOWN] * 16;
+					}
 				}
 			}
 			else if (poziom == 5)
@@ -510,6 +945,120 @@ int main(void)
 					punkty += 2000;
 					p = 0;
 				}
+				if (keys[RIGHT])
+				{
+					if (poziom5[((pos_y) / 16) - 2][((pos_x) / 16) + 1] == 1)
+					{
+						keys[RIGHT] = false;
+
+						if ((poziom5[((pos_y) / 16) - 3][((pos_x) / 16)] == 1) && (poziom5[((pos_y) / 16) - 1][((pos_x) / 16)] == 1))
+						{
+							zycie -= 1;
+							graj = false;
+							pos_x = 288;
+							pos_y = 96;
+
+						}
+						else if (poziom5[((pos_y) / 16) - 3][((pos_x) / 16)] == 1)
+						{
+							keys[DOWN] = true;
+						}
+						else if (poziom5[((pos_y) / 16) - 1][((pos_x) / 16)] == 1)
+						{
+							keys[UP] = true;
+						}
+					}
+					else
+					{
+						pos_x += keys[RIGHT] * 16;
+					}
+				}
+				else if (keys[LEFT])
+				{
+					if (poziom5[((pos_y) / 16) - 2][((pos_x) / 16) - 1] == 1)
+					{
+						keys[LEFT] = false;
+
+						if ((poziom5[((pos_y) / 16) - 3][((pos_x) / 16)] == 1) && (poziom5[((pos_y) / 16) - 1][((pos_x) / 16)] == 1))
+						{
+							zycie -= 1;
+							graj = false;
+							pos_x = 288;
+							pos_y = 96;
+						}
+						else if (poziom5[((pos_y) / 16) - 3][((pos_x) / 16)] == 1)
+						{
+							keys[DOWN] = true;
+						}
+						else if (poziom5[((pos_y) / 16) - 1][((pos_x) / 16)] == 1)
+						{
+							keys[UP] = true;
+						}
+					}
+					else
+					{
+						pos_x -= keys[LEFT] * 16;
+					}
+				}
+				else if (keys[UP])
+				{
+					if (poziom5[((pos_y) / 16) - 3][((pos_x) / 16)] == 1)
+					{
+						keys[UP] = false;
+
+						if ((poziom5[((pos_y) / 16) - 2][((pos_x) / 16) + 1] == 1) && (poziom5[((pos_y) / 16) - 2][((pos_x) / 16) - 1] == 1))
+						{
+							zycie -= 1;
+							graj = false;
+							pos_x = 288;
+							pos_y = 96;
+						}
+						else if (poziom5[((pos_y) / 16) - 2][((pos_x) / 16) + 1] == 1)
+						{
+							keys[LEFT] = true;
+						}
+						else if (poziom5[((pos_y) / 16) - 2][((pos_x) / 16) - 1] == 1)
+						{
+							keys[RIGHT] = true;
+						}
+					}
+					else
+					{
+						pos_y -= keys[UP] * 16;
+					}
+				}
+				else if (keys[DOWN])
+				{
+					if (poziom5[((pos_y) / 16) - 1][((pos_x) / 16)] == 1)
+					{
+						keys[DOWN] = false;
+
+						if ((poziom5[((pos_y) / 16) - 2][((pos_x) / 16) + 1] == 1) && (poziom5[((pos_y) / 16) - 2][((pos_x) / 16) - 1] == 1))
+						{
+							zycie -= 1;
+							graj = false;
+							pos_x = 288;
+							pos_y = 96;
+						}
+						else if (poziom5[((pos_y) / 16) - 2][((pos_x) / 16) + 1] == 1)
+						{
+							keys[LEFT] = true;
+						}
+						else if (poziom5[((pos_y) / 16) - 2][((pos_x) / 16) - 1] == 1)
+						{
+							keys[RIGHT] = true;
+						}
+					}
+					else
+					{
+						pos_y += keys[DOWN] * 16;
+					}
+				}
+			}
+
+			if (zycie == 0)
+			{
+				przegrales = true;
 			}
 		}
 	}
@@ -517,6 +1066,7 @@ int main(void)
 
 	al_destroy_bitmap(stronatytulowa);
 	al_destroy_bitmap(serce1);
+
 	al_destroy_bitmap(serce2);
 	al_destroy_bitmap(serce3);
 	al_destroy_bitmap(serce4);
