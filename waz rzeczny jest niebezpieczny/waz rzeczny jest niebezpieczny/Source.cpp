@@ -334,10 +334,11 @@ int main(void)
 							keys[UP] = true;
 						}
 					}
-					else
-					{
 						pos_x += keys[RIGHT] * 16;
-					}
+						pos_x -= keys[LEFT] * 16;
+						pos_y -= keys[UP] * 16;
+						pos_y += keys[DOWN] * 16;
+					
 				}
 				else if (keys[LEFT])
 				{
@@ -361,10 +362,10 @@ int main(void)
 							keys[UP] = true;
 						}
 					}
-					else
-					{
-						pos_x -= keys[LEFT] * 16;
-					}
+					pos_x += keys[RIGHT] * 16;
+					pos_x -= keys[LEFT] * 16;
+					pos_y -= keys[UP] * 16;
+					pos_y += keys[DOWN] * 16;
 				}
 				else if (keys[UP])
 				{
@@ -388,10 +389,10 @@ int main(void)
 							keys[RIGHT] = true;
 						}
 					}
-					else
-					{
-						pos_y -= keys[UP] * 16;
-					}
+					pos_x += keys[RIGHT] * 16;
+					pos_x -= keys[LEFT] * 16;
+					pos_y -= keys[UP] * 16;
+					pos_y += keys[DOWN] * 16;
 				}
 				else if (keys[DOWN])
 				{
@@ -415,10 +416,10 @@ int main(void)
 							keys[RIGHT] = true;
 						}
 					}
-					else
-					{
-						pos_y += keys[DOWN] * 16;
-					}
+					pos_x += keys[RIGHT] * 16;
+					pos_x -= keys[LEFT] * 16;
+					pos_y -= keys[UP] * 16;
+					pos_y += keys[DOWN] * 16;
 				}
 
 			}
@@ -491,10 +492,10 @@ int main(void)
 							keys[UP] = true;
 						}
 					}
-					else
-					{
-						pos_x += keys[RIGHT] * 16;
-					}
+					pos_x += keys[RIGHT] * 16;
+					pos_x -= keys[LEFT] * 16;
+					pos_y -= keys[UP] * 16;
+					pos_y += keys[DOWN] * 16;
 				}
 				else if (keys[LEFT])
 				{
@@ -518,10 +519,10 @@ int main(void)
 							keys[UP] = true;
 						}
 					}
-					else
-					{
-						pos_x -= keys[LEFT] * 16;
-					}
+					pos_x += keys[RIGHT] * 16;
+					pos_x -= keys[LEFT] * 16;
+					pos_y -= keys[UP] * 16;
+					pos_y += keys[DOWN] * 16;
 				}
 				else if (keys[UP])
 				{
@@ -545,10 +546,10 @@ int main(void)
 							keys[RIGHT] = true;
 						}
 					}
-					else
-					{
-						pos_y -= keys[UP] * 16;
-					}
+					pos_x += keys[RIGHT] * 16;
+					pos_x -= keys[LEFT] * 16;
+					pos_y -= keys[UP] * 16;
+					pos_y += keys[DOWN] * 16;
 				}
 				else if (keys[DOWN])
 				{
@@ -572,10 +573,10 @@ int main(void)
 							keys[RIGHT] = true;
 						}
 					}
-					else
-					{
-						pos_y += keys[DOWN] * 16;
-					}
+					pos_x += keys[RIGHT] * 16;
+					pos_x -= keys[LEFT] * 16;
+					pos_y -= keys[UP] * 16;
+					pos_y += keys[DOWN] * 16;
 				}
 			}
 			else if (poziom == 3)
@@ -647,10 +648,10 @@ int main(void)
 							keys[UP] = true;
 						}
 					}
-					else
-					{
-						pos_x += keys[RIGHT] * 16;
-					}
+					pos_x += keys[RIGHT] * 16;
+					pos_x -= keys[LEFT] * 16;
+					pos_y -= keys[UP] * 16;
+					pos_y += keys[DOWN] * 16;
 				}
 				else if (keys[LEFT])
 				{
@@ -674,10 +675,10 @@ int main(void)
 							keys[UP] = true;
 						}
 					}
-					else
-					{
-						pos_x -= keys[LEFT] * 16;
-					}
+					pos_x += keys[RIGHT] * 16;
+					pos_x -= keys[LEFT] * 16;
+					pos_y -= keys[UP] * 16;
+					pos_y += keys[DOWN] * 16;
 				}
 				else if (keys[UP])
 				{
@@ -701,10 +702,10 @@ int main(void)
 							keys[RIGHT] = true;
 						}
 					}
-					else
-					{
-						pos_y -= keys[UP] * 16;
-					}
+					pos_x += keys[RIGHT] * 16;
+					pos_x -= keys[LEFT] * 16;
+					pos_y -= keys[UP] * 16;
+					pos_y += keys[DOWN] * 16;
 				}
 				else if (keys[DOWN])
 				{
@@ -728,10 +729,10 @@ int main(void)
 							keys[RIGHT] = true;
 						}
 					}
-					else
-					{
-						pos_y += keys[DOWN] * 16;
-					}
+					pos_x += keys[RIGHT] * 16;
+					pos_x -= keys[LEFT] * 16;
+					pos_y -= keys[UP] * 16;
+					pos_y += keys[DOWN] * 16;
 				}
 
 			}
@@ -804,10 +805,10 @@ int main(void)
 							keys[UP] = true;
 						}
 					}
-					else
-					{
-						pos_x += keys[RIGHT] * 16;
-					}
+					pos_x += keys[RIGHT] * 16;
+					pos_x -= keys[LEFT] * 16;
+					pos_y -= keys[UP] * 16;
+					pos_y += keys[DOWN] * 16;
 				}
 				else if (keys[LEFT])
 				{
@@ -831,10 +832,10 @@ int main(void)
 							keys[UP] = true;
 						}
 					}
-					else
-					{
-						pos_x -= keys[LEFT] * 16;
-					}
+					pos_x += keys[RIGHT] * 16;
+					pos_x -= keys[LEFT] * 16;
+					pos_y -= keys[UP] * 16;
+					pos_y += keys[DOWN] * 16;
 				}
 				else if (keys[UP])
 				{
@@ -858,10 +859,10 @@ int main(void)
 							keys[RIGHT] = true;
 						}
 					}
-					else
-					{
-						pos_y -= keys[UP] * 16;
-					}
+					pos_x += keys[RIGHT] * 16;
+					pos_x -= keys[LEFT] * 16;
+					pos_y -= keys[UP] * 16;
+					pos_y += keys[DOWN] * 16;
 				}
 				else if (keys[DOWN])
 				{
@@ -885,10 +886,10 @@ int main(void)
 							keys[RIGHT] = true;
 						}
 					}
-					else
-					{
-						pos_y += keys[DOWN] * 16;
-					}
+					pos_x += keys[RIGHT] * 16;
+					pos_x -= keys[LEFT] * 16;
+					pos_y -= keys[UP] * 16;
+					pos_y += keys[DOWN] * 16;
 				}
 			}
 			else if (poziom == 5)
@@ -968,10 +969,10 @@ int main(void)
 							keys[UP] = true;
 						}
 					}
-					else
-					{
-						pos_x += keys[RIGHT] * 16;
-					}
+					pos_x += keys[RIGHT] * 16;
+					pos_x -= keys[LEFT] * 16;
+					pos_y -= keys[UP] * 16;
+					pos_y += keys[DOWN] * 16;
 				}
 				else if (keys[LEFT])
 				{
@@ -995,10 +996,10 @@ int main(void)
 							keys[UP] = true;
 						}
 					}
-					else
-					{
-						pos_x -= keys[LEFT] * 16;
-					}
+					pos_x += keys[RIGHT] * 16;
+					pos_x -= keys[LEFT] * 16;
+					pos_y -= keys[UP] * 16;
+					pos_y += keys[DOWN] * 16;
 				}
 				else if (keys[UP])
 				{
@@ -1022,10 +1023,10 @@ int main(void)
 							keys[RIGHT] = true;
 						}
 					}
-					else
-					{
-						pos_y -= keys[UP] * 16;
-					}
+					pos_x += keys[RIGHT] * 16;
+					pos_x -= keys[LEFT] * 16;
+					pos_y -= keys[UP] * 16;
+					pos_y += keys[DOWN] * 16;
 				}
 				else if (keys[DOWN])
 				{
@@ -1049,10 +1050,10 @@ int main(void)
 							keys[RIGHT] = true;
 						}
 					}
-					else
-					{
-						pos_y += keys[DOWN] * 16;
-					}
+					pos_x += keys[RIGHT] * 16;
+					pos_x -= keys[LEFT] * 16;
+					pos_y -= keys[UP] * 16;
+					pos_y += keys[DOWN] * 16;
 				}
 			}
 
