@@ -26,7 +26,7 @@ int main(void)
 	al_init_ttf_addon();
 
 	int count = 0;
-	short int FPS = 6;
+	short int FPS = 60;
 	short int zycie = 3;
 	long long int punkty = 0;
 
@@ -38,7 +38,9 @@ int main(void)
 	bool przegrales = true;
 	int pos_x = 288;
 	int pos_y = 96;
-	short int p=0,p1=120,p2=130,p3=150,p4=100,p5=180,los,los2,i,j; //120 130 150 100 180
+	int predkoscbazowa = 45;
+	int predkosc=predkoscbazowa;
+	short int p=0,p1=120,p2=130,p3=150,p4=100,p5=180,los,los2,i,j,najw,najm,im,jm,iw,jw; //120 130 150 100 180
 	short poziom = 0;
 
 	ALLEGRO_DISPLAY *okno = NULL;
@@ -130,8 +132,11 @@ int main(void)
 				los2 = rand() % 40;
 				if (poziom1[los][los2] == 0)
 				{
-					poziom1[los][los2] = 2;
-					p++;
+					if ((los !=4 && los2 != 20) && (los != 5 && los2 != 20) && (los != 6 && los2 != 20) && (los != 6 && los2 != 19) && (los != 7 && los2 != 19))
+					{
+						poziom1[los][los2] = 2;
+						p++;
+					}
 				}
 			}
 			p = 0;
@@ -262,14 +267,6 @@ int main(void)
 			
 			if (poziom == 1)
 			{
-				//element zastapiony przez drogê
-				if (poziom1[((pos_y) / 16) - 2][(pos_x) / 16] == 2)
-				{
-					poziom1[((pos_y) / 16) - 2][(pos_x) / 16] = 0;
-					p++;
-					punkty += 50;
-					//waz rosnie
-				}
 
 				al_clear_to_color(al_map_rgb(255, 0, 0));
 				al_draw_text(malaczcionka, al_map_rgb(255, 255, 255), 320, 4, ALLEGRO_ALIGN_CENTRE, "Poziom  1");
@@ -287,14 +284,36 @@ int main(void)
 						{
 							al_draw_filled_circle((j * 16) + 8, (i * 16) + 40, 4, al_map_rgb(255, 255, 255));
 						}
+						else if (poziom1[i][j]==0)
+						{ }
+						else
+						{ 
+							al_draw_filled_rectangle(j * 16, (i * 16) + 32, (j * 16) + 16, (i * 16) + 48, al_map_rgb(148, 233, 7));
+						}
 					}
 				}
-				if(!graj)
+				if (!graj) // komunikat i zerowanie pozycji weza
 				{
-						al_draw_filled_rectangle(50, 200, 590, 280, al_map_rgb(255, 255, 255));
-						al_draw_text(czcionka, al_map_rgb(0, 0, 0), 320, 220, ALLEGRO_ALIGN_CENTRE, "Wcisnij spacje, zeby rozpoczac");
+					al_draw_filled_rectangle(50, 200, 590, 280, al_map_rgb(255, 255, 255));
+					al_draw_text(czcionka, al_map_rgb(0, 0, 0), 320, 220, ALLEGRO_ALIGN_CENTRE, "Wcisnij spacje, zeby rozpoczac");
+					for (i = 0; i < 28; i++)
+					{
+						for (j = 0; j < 40; j++)
+						{
+							if (poziom1[i][j] != 1 && poziom1[i][j] != 0 && poziom1[i][j] != 2)
+							{
+								poziom1[i][j] = 0;
+							}
+
+						}
+					}
+					poziom1[4][20] = -5;
+					poziom1[5][20] = -4;
+					poziom1[6][20] = -3;
+					poziom1[6][19] = -2;
+					poziom1[7][19] = -1;
 				}
-				al_draw_filled_rectangle(pos_x, pos_y, pos_x + 16, pos_y + 16, al_map_rgb(148, 233, 7));
+
 				al_flip_display();
 
 				if (p == p1)
@@ -305,121 +324,271 @@ int main(void)
 					keys[UP] = false;
 					keys[LEFT] = false;
 					keys[DOWN] = false;
-					pos_x = 16;
-					pos_y = 112;
 					punkty += 2000;
 					p = 0;
 				}
 				//skrecanie
-				if (keys[RIGHT])
+				if (count%(FPS - predkosc) == 0)
 				{
-					if (poziom1[((pos_y) / 16) - 2][((pos_x) / 16) + 1] == 1)
+					najw = -10000;
+					najm = 1;
+					for (i = 0; i < 28; i++)
 					{
-						keys[RIGHT] = false;
-
-						if ((poziom1[((pos_y) / 16) - 3][((pos_x) / 16)] == 1) && (poziom1[((pos_y) / 16) - 1][((pos_x) / 16)] == 1))
+						for (j = 0; j < 40; j++)
 						{
-							zycie -= 1;
-							graj = false;
-							pos_x = 288;
-							pos_y = 96;
-
-						}
-						else if (poziom1[((pos_y) / 16) - 3][((pos_x) / 16)] == 1)
-						{
-							keys[DOWN] = true;
-						}
-						else if (poziom1[((pos_y) / 16) - 1][((pos_x) / 16)] == 1)
-						{
-							keys[UP] = true;
+							if (poziom1[i][j] < 0)
+							{
+								if (poziom1[i][j] > najw)
+								{
+									najw = poziom1[i][j];
+									iw = i;
+									jw = j;
+								}
+								if (poziom1[i][j] < najm)
+								{
+									najm = poziom1[i][j];
+									im = i;
+									jm = j;
+								}
+							}
 						}
 					}
-						pos_x += keys[RIGHT] * 16;
-						pos_x -= keys[LEFT] * 16;
-						pos_y -= keys[UP] * 16;
-						pos_y += keys[DOWN] * 16;
+					if (keys[RIGHT])
+					{
+						if (poziom1[im][jm+1] != 0 && poziom1[im][jm+1] != 2)
+						{
+							keys[RIGHT] = false;
+
+							if ((poziom1[im-1][jm] != 0) && (poziom1[im+1][jm] != 2) && (poziom1[im - 1][jm] != 2) && (poziom1[im + 1][jm] != 0))
+							{
+								zycie -= 1;
+								graj = false;
+
+							}
+							else if (poziom1[im+1][jm] != 0 && poziom1[im + 1][jm] != 2)
+							{
+								keys[UP] = true;
+
+								if (poziom1[im - 1][jm] == 0)
+								{
+									poziom1[iw][jw]=0;
+									poziom1[im - 1][jm] = najm - 1;
+								}
+								else if (poziom1[im - 1][jm] == 2)
+								{
+									poziom1[im - 1][jm] = najm - 1;
+									p++;
+									punkty += 50;
+								}
+							}
+							else if (poziom1[im-1][jm] != 0 && poziom1[im - 1][jm] != 2)
+							{
+								keys[DOWN] = true;
+
+								if (poziom1[im + 1][jm] == 0)
+								{
+									poziom1[iw][jw] = 0;
+									poziom1[im + 1][jm] = najm - 1;
+								}
+								else if (poziom1[im + 1][jm] == 2)
+								{
+									poziom1[im + 1][jm] = najm - 1;
+									punkty += 50;
+									p++;
+								}
+							}
+						}
+						else
+						{
+							if (poziom1[im][jm+1] == 0)
+							{
+								poziom1[iw][jw] = 0;
+								poziom1[im][jm+1] = najm - 1;
+							}
+							else if (poziom1[im][jm+1] == 2)
+							{
+								poziom1[im][jm+1] = najm - 1;
+								punkty += 50;
+								p++;
+							}
+						}
+					}
+					else if (keys[LEFT])
+					{
+						if (poziom1[im][jm-1] != 2 && poziom1[im][jm-1] != 0)
+						{
+							keys[LEFT] = false;
+
+							if ((poziom1[im+1][jm] != 0) && (poziom1[im-1][jm] != 0) && (poziom1[im + 1][jm] != 2) && (poziom1[im - 1][jm] != 2))
+							{
+								zycie -= 1;
+								graj = false;
+							}
+							else if (poziom1[im+1][jm] != 0 && poziom1[im+1][jm]!=2)
+							{
+								keys[UP] = true;
+
+									if (poziom1[im - 1][jm] == 0)
+									{
+										poziom1[iw][jw] = 0;
+										poziom1[im - 1][jm] = najm - 1;
+									}
+									else if (poziom1[im - 1][jm] == 2)
+									{
+										poziom1[im - 1][jm] = najm - 1;
+										punkty += 50;
+										p++;
+									}
+							}
+							else if (poziom1[im - 1][jm] != 0 && poziom1[im - 1][jm] != 2)
+							{
+								keys[DOWN] = true;
+								if (poziom1[im + 1][jm] == 0)
+								{
+									poziom1[iw][jw] = 0;
+									poziom1[im + 1][jm] = najm - 1;
+								}
+								else if (poziom1[im + 1][jm] == 2)
+								{
+									poziom1[im + 1][jm] = najm - 1;
+									punkty += 50;
+									p++;
+								}
+							}
+						}
+						else
+						{
+							if (poziom1[im][jm - 1] == 0)
+							{
+								poziom1[iw][jw] = 0;
+								poziom1[im][jm - 1] = najm - 1;
+							}
+							else if (poziom1[im][jm - 1] == 2)
+							{
+								poziom1[im][jm - 1] = najm - 1;
+								punkty += 50;
+								p++;
+							}
+						}
+					}
+					else if (keys[UP])
+					{
+						if ((poziom1[im-1][jm] != 2) && (poziom1[im-1][jm] != 0))
+						{
+							keys[UP] = false;
+
+							if ((poziom1[im][jm-1] != 0) && (poziom1[im][jm+1] != 0) && (poziom1[im ][jm-1] != 2) && (poziom1[im][jm+1] != 2))
+							{
+								zycie -= 1;
+								graj = false;
+							}
+							else if (poziom1[im][jm+1] != 0 && poziom1[im][jm+1] != 2)
+							{
+								keys[LEFT] = true;
+
+								if (poziom1[im][jm-1] == 0)
+								{
+									poziom1[iw][jw] = 0;
+									poziom1[im][jm-1] = najm - 1;
+								}
+								else if (poziom1[im][jm-1] == 2)
+								{
+									poziom1[im][jm-1] = najm - 1;
+									punkty += 50;
+									p++;
+								}
+							}
+							else if (poziom1[im][jm-1] != 0 && poziom1[im][jm-1] != 2)
+							{
+								keys[RIGHT] = true;
+								if (poziom1[im][jm+1] == 0)
+								{
+									poziom1[iw][jw] = 0;
+									poziom1[im][jm+1] = najm - 1;
+								}
+								else if (poziom1[im][jm+1] == 2)
+								{
+									poziom1[im][jm+1] = najm - 1;
+									punkty += 50;
+									p++;
+								}
+							}
+						}
+						else
+						{
+							if (poziom1[im-1][jm] == 0)
+							{
+								poziom1[iw][jw] = 0;
+								poziom1[im-1][jm] = najm - 1;
+							}
+							else if (poziom1[im-1][jm] == 2)
+							{
+								poziom1[im-1][jm] = najm - 1;
+								punkty += 50;
+								p++;
+							}
+						}
+					}
+					else if (keys[DOWN])
+					{
+						if (poziom1[im + 1][jm] != 2 && poziom1[im+1][jm] != 0)
+						{
+							keys[DOWN] = false;
+
+							if ((poziom1[im][jm - 1] != 0) && (poziom1[im][jm + 1] != 0) && (poziom1[im][jm - 1] != 2) && (poziom1[im][jm + 1] != 2))
+							{
+								zycie -= 1;
+								graj = false;
+							}
+							else if (poziom1[im][jm + 1] != 0 && poziom1[im][jm + 1] != 2)
+							{
+								keys[LEFT] = true;
+
+								if (poziom1[im][jm - 1] == 0)
+								{
+									poziom1[iw][jw] = 0;
+									poziom1[im][jm - 1] = najm - 1;
+								}
+								else if (poziom1[im][jm - 1] == 2)
+								{
+									poziom1[im][jm - 1] = najm - 1;
+									punkty += 50;
+									p++;
+								}
+							}
+							else if (poziom1[im][jm - 1] != 0 && poziom1[im][jm - 1] != 2)
+							{
+								keys[RIGHT] = true;
+								if (poziom1[im][jm + 1] == 0)
+								{
+									poziom1[iw][jw] = 0;
+									poziom1[im][jm + 1] = najm - 1;
+								}
+								else if (poziom1[im][jm + 1] == 2)
+								{
+									poziom1[im][jm + 1] = najm - 1;
+									punkty += 50;
+									p++;
+								}
+							}
+						}
+						else
+						{
+							if (poziom1[im + 1][jm] == 0)
+							{
+								poziom1[iw][jw] = 0;
+								poziom1[im + 1][jm] = najm - 1;
+							}
+							else if (poziom1[im + 1][jm] == 2)
+							{
+								poziom1[im + 1][jm] = najm - 1;
+								punkty += 50;
+								p++;
+							}
+						}
+					}
 					
-				}
-				else if (keys[LEFT])
-				{
-					if (poziom1[((pos_y) / 16) - 2][((pos_x) / 16) - 1] == 1)
-					{
-						keys[LEFT] = false;
 
-						if ((poziom1[((pos_y) / 16) - 3][((pos_x) / 16)] == 1) && (poziom1[((pos_y) / 16) - 1][((pos_x) / 16)] == 1))
-						{
-							zycie -= 1;
-							graj = false;
-							pos_x = 288;
-							pos_y = 96;
-						}
-						else if (poziom1[((pos_y) / 16) - 3][((pos_x) / 16)] == 1)
-						{
-							keys[DOWN] = true;
-						}
-						else if (poziom1[((pos_y) / 16) - 1][((pos_x) / 16)] == 1)
-						{
-							keys[UP] = true;
-						}
-					}
-					pos_x += keys[RIGHT] * 16;
-					pos_x -= keys[LEFT] * 16;
-					pos_y -= keys[UP] * 16;
-					pos_y += keys[DOWN] * 16;
-				}
-				else if (keys[UP])
-				{
-					if (poziom1[((pos_y) / 16) - 3][((pos_x) / 16)] == 1)
-					{
-						keys[UP] = false;
-
-						if ((poziom1[((pos_y) / 16) - 2][((pos_x) / 16) + 1] == 1) && (poziom1[((pos_y) / 16) - 2][((pos_x) / 16) - 1] == 1))
-						{
-							zycie -= 1;
-							graj = false;
-							pos_x = 288;
-							pos_y = 96;
-						}
-						else if (poziom1[((pos_y) / 16) - 2][((pos_x) / 16) + 1] == 1)
-						{
-							keys[LEFT] = true;
-						}
-						else if (poziom1[((pos_y) / 16) - 2][((pos_x) / 16) - 1] == 1)
-						{
-							keys[RIGHT] = true;
-						}
-					}
-					pos_x += keys[RIGHT] * 16;
-					pos_x -= keys[LEFT] * 16;
-					pos_y -= keys[UP] * 16;
-					pos_y += keys[DOWN] * 16;
-				}
-				else if (keys[DOWN])
-				{
-					if (poziom1[((pos_y) / 16) - 1][((pos_x) / 16)] == 1)
-					{
-						keys[DOWN] = false;
-
-						if ((poziom1[((pos_y) / 16) - 2][((pos_x) / 16) + 1] == 1) && (poziom1[((pos_y) / 16) - 2][((pos_x) / 16) - 1] == 1))
-						{
-							zycie -= 1;
-							graj = false;
-							pos_x = 288;
-							pos_y = 96;
-						}
-						else if (poziom1[((pos_y) / 16) - 2][((pos_x) / 16) + 1] == 1)
-						{
-							keys[LEFT] = true;
-						}
-						else if (poziom1[((pos_y) / 16) - 2][((pos_x) / 16) - 1] == 1)
-						{
-							keys[RIGHT] = true;
-						}
-					}
-					pos_x += keys[RIGHT] * 16;
-					pos_x -= keys[LEFT] * 16;
-					pos_y -= keys[UP] * 16;
-					pos_y += keys[DOWN] * 16;
 				}
 
 			}
