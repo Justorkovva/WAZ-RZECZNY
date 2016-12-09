@@ -38,7 +38,7 @@ int main(void)
 	bool przegrales = true;
 	int pos_x = 288;
 	int pos_y = 96;
-	int predkoscbazowa = 45;
+	int predkoscbazowa = 50;
 	int predkosc=predkoscbazowa;
 	short int p=0,p1=120,p2=130,p3=150,p4=100,p5=180,los,los2,i,j,najw,najm,im,jm,iw,jw; //120 130 150 100 180
 	short poziom = 0;
@@ -328,9 +328,10 @@ int main(void)
 					p = 0;
 				}
 				//skrecanie
+				
 				if (count%(FPS - predkosc) == 0)
 				{
-					najw = -10000;
+					najw = -32000;
 					najm = 1;
 					for (i = 0; i < 28; i++)
 					{
@@ -363,7 +364,7 @@ int main(void)
 							{
 								zycie -= 1;
 								graj = false;
-
+								predkosc = predkoscbazowa;
 							}
 							else if (poziom1[im+1][jm] != 0 && poziom1[im + 1][jm] != 2)
 							{
@@ -379,6 +380,7 @@ int main(void)
 									poziom1[im - 1][jm] = najm - 1;
 									p++;
 									punkty += 50;
+									predkosc = predkoscbazowa;
 								}
 							}
 							else if (poziom1[im-1][jm] != 0 && poziom1[im - 1][jm] != 2)
@@ -395,6 +397,7 @@ int main(void)
 									poziom1[im + 1][jm] = najm - 1;
 									punkty += 50;
 									p++;
+									predkosc = predkoscbazowa;
 								}
 							}
 						}
@@ -410,6 +413,7 @@ int main(void)
 								poziom1[im][jm+1] = najm - 1;
 								punkty += 50;
 								p++;
+								predkosc = predkoscbazowa;
 							}
 						}
 					}
@@ -423,6 +427,7 @@ int main(void)
 							{
 								zycie -= 1;
 								graj = false;
+								predkosc = predkoscbazowa;
 							}
 							else if (poziom1[im+1][jm] != 0 && poziom1[im+1][jm]!=2)
 							{
@@ -438,6 +443,7 @@ int main(void)
 										poziom1[im - 1][jm] = najm - 1;
 										punkty += 50;
 										p++;
+										predkosc = predkoscbazowa;
 									}
 							}
 							else if (poziom1[im - 1][jm] != 0 && poziom1[im - 1][jm] != 2)
@@ -453,6 +459,7 @@ int main(void)
 									poziom1[im + 1][jm] = najm - 1;
 									punkty += 50;
 									p++;
+									predkosc = predkoscbazowa;
 								}
 							}
 						}
@@ -468,6 +475,7 @@ int main(void)
 								poziom1[im][jm - 1] = najm - 1;
 								punkty += 50;
 								p++;
+								predkosc = predkoscbazowa;
 							}
 						}
 					}
@@ -481,6 +489,7 @@ int main(void)
 							{
 								zycie -= 1;
 								graj = false;
+								predkosc = predkoscbazowa;
 							}
 							else if (poziom1[im][jm+1] != 0 && poziom1[im][jm+1] != 2)
 							{
@@ -496,6 +505,7 @@ int main(void)
 									poziom1[im][jm-1] = najm - 1;
 									punkty += 50;
 									p++;
+									predkosc = predkoscbazowa;
 								}
 							}
 							else if (poziom1[im][jm-1] != 0 && poziom1[im][jm-1] != 2)
@@ -511,6 +521,7 @@ int main(void)
 									poziom1[im][jm+1] = najm - 1;
 									punkty += 50;
 									p++;
+									predkosc = predkoscbazowa;
 								}
 							}
 						}
@@ -526,6 +537,7 @@ int main(void)
 								poziom1[im-1][jm] = najm - 1;
 								punkty += 50;
 								p++;
+								predkosc = predkoscbazowa;
 							}
 						}
 					}
@@ -539,6 +551,7 @@ int main(void)
 							{
 								zycie -= 1;
 								graj = false;
+								predkosc = predkoscbazowa;
 							}
 							else if (poziom1[im][jm + 1] != 0 && poziom1[im][jm + 1] != 2)
 							{
@@ -554,6 +567,7 @@ int main(void)
 									poziom1[im][jm - 1] = najm - 1;
 									punkty += 50;
 									p++;
+									predkosc = predkoscbazowa;
 								}
 							}
 							else if (poziom1[im][jm - 1] != 0 && poziom1[im][jm - 1] != 2)
@@ -569,6 +583,7 @@ int main(void)
 									poziom1[im][jm + 1] = najm - 1;
 									punkty += 50;
 									p++;
+									predkosc = predkoscbazowa;
 								}
 							}
 						}
@@ -584,11 +599,17 @@ int main(void)
 								poziom1[im + 1][jm] = najm - 1;
 								punkty += 50;
 								p++;
+								predkosc = predkoscbazowa;
 							}
 						}
 					}
-					
-
+					if (count % 120 == 0)
+					{
+						if (predkosc < 59)
+						{
+							predkosc+=3;
+						}
+					}
 				}
 
 			}
