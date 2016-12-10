@@ -176,8 +176,11 @@ int main(void)
 				los2 = rand() % 40;
 				if (poziom4[los][los2] == 0)
 				{
-					poziom4[los][los2] = 2;
-					p++;
+					if ((los != 4 && los2 != 20) && (los != 5 && los2 != 20) && (los != 6 && los2 != 20) && (los != 6 && los2 != 19) && (los != 6 && los2 != 18))
+					{
+						poziom4[los][los2] = 2;
+						p++;
+					}
 				}
 			}
 			p = 0;
@@ -1505,14 +1508,6 @@ int main(void)
 					
 			else if (poziom == 4)
 			{
-				if (poziom4[((pos_y) / 16) - 2][(pos_x) / 16] == 2)
-				{
-					poziom4[((pos_y) / 16) - 2][(pos_x) / 16] = 0;
-					p++;
-					punkty += 50;
-					//waz rosnie
-				}
-
 				al_clear_to_color(al_map_rgb(180, 0, 255));
 				al_draw_text(malaczcionka, al_map_rgb(255, 195, 2), 320, 4, ALLEGRO_ALIGN_CENTRE, "Poziom  4");
 				al_draw_textf(malaczcionka, al_map_rgb(255, 195, 2), 620, 4, ALLEGRO_ALIGN_RIGHT, "%i", punkty);
@@ -1526,15 +1521,35 @@ int main(void)
 							al_draw_filled_rectangle(j * 16, (i * 16) + 32, (j * 16) + 16, (i * 16) + 48, al_map_rgb(0, 0, 0));
 						else if (poziom4[i][j] == 2)
 							al_draw_filled_circle((j * 16) + 8, (i * 16) + 40, 4, al_map_rgb(255, 195, 2));
+						else if (poziom4[i][j] == 0)
+						{}
+						else
+						{
+							al_draw_filled_rectangle(j * 16, (i * 16) + 32, (j * 16) + 16, (i * 16) + 48, al_map_rgb(148, 233, 7));
+						}
 					}
 				}
 				if (!graj)
 				{
 					al_draw_filled_rectangle(50, 200, 590, 280, al_map_rgb(255, 255, 255));
 					al_draw_text(czcionka, al_map_rgb(0, 0, 0), 320, 220, ALLEGRO_ALIGN_CENTRE, "Wcisnij spacje, zeby rozpoczac");
+					for (i = 0; i < 28; i++)
+					{
+						for (j = 0; j < 40; j++)
+						{
+							if (poziom4[i][j] != 1 && poziom4[i][j] != 0 && poziom4[i][j] != 2)
+							{
+								poziom4[i][j] = 0;
+							}
 
+						}
+					}
+					poziom4[4][20] = -5;
+					poziom4[5][20] = -4;
+					poziom4[6][20] = -3;
+					poziom4[6][19] = -2;
+					poziom4[6][18] = -1;
 				}
-				al_draw_filled_rectangle(pos_x, pos_y, pos_x + 16, pos_y + 16, al_map_rgb(148, 233, 7));
 				al_flip_display();
 				if (p == p4)
 				{
@@ -1544,131 +1559,363 @@ int main(void)
 					keys[UP] = false;
 					keys[LEFT] = false;
 					keys[DOWN] = false;
-					pos_x = 304;
-					pos_y = 64;
+					go[R] = false;
+					go[L] = false;
+					go[U] = false;
+					go[D] = false;
 					punkty += 2000;
 					p = 0;
+					predkosc = predkoscbazowa;
 				}
-				if (keys[RIGHT])
+				//skrecanie
+				if (count % (FPS - predkosc) == 0)
 				{
-					if (poziom4[((pos_y) / 16) - 2][((pos_x) / 16) + 1] == 1)
+					najw = -32000;
+					najm = 1; //szukanie glowy i ogona
+					for (i = 0; i < 28; i++)
 					{
-						keys[RIGHT] = false;
-
-						if ((poziom4[((pos_y) / 16) - 3][((pos_x) / 16)] == 1) && (poziom4[((pos_y) / 16) - 1][((pos_x) / 16)] == 1))
+						for (j = 0; j < 40; j++)
 						{
-							zycie -= 1;
-							graj = false;
-							pos_x = 304;
-							pos_y = 64;
-
-						}
-						else if (poziom4[((pos_y) / 16) - 3][((pos_x) / 16)] == 1)
-						{
-							keys[DOWN] = true;
-						}
-						else if (poziom4[((pos_y) / 16) - 1][((pos_x) / 16)] == 1)
-						{
-							keys[UP] = true;
+							if (poziom4[i][j] < 0)
+							{
+								if (poziom4[i][j] > najw)
+								{
+									najw = poziom4[i][j];
+									iw = i;
+									jw = j;
+								}
+								if (poziom4[i][j] < najm)
+								{
+									najm = poziom4[i][j];
+									im = i;
+									jm = j;
+								}
+							}
 						}
 					}
-					pos_x += keys[RIGHT] * 16;
-					pos_x -= keys[LEFT] * 16;
-					pos_y -= keys[UP] * 16;
-					pos_y += keys[DOWN] * 16;
-				}
-				else if (keys[LEFT])
-				{
-					if (poziom4[((pos_y) / 16) - 2][((pos_x) / 16) - 1] == 1)
-					{
-						keys[LEFT] = false;
 
-						if ((poziom4[((pos_y) / 16) - 3][((pos_x) / 16)] == 1) && (poziom4[((pos_y) / 16) - 1][((pos_x) / 16)] == 1))
+					if (keys[RIGHT])
+					{
+						if (poziom4[im][jm + 1] == 0 || poziom4[im][jm + 1] == 2)
 						{
-							zycie -= 1;
-							graj = false;
-							pos_x = 304;
-							pos_y = 64;
-						}
-						else if (poziom4[((pos_y) / 16) - 3][((pos_x) / 16)] == 1)
-						{
-							keys[DOWN] = true;
-						}
-						else if (poziom4[((pos_y) / 16) - 1][((pos_x) / 16)] == 1)
-						{
-							keys[UP] = true;
+							go[R] = true;
+							go[L] = false;
+							go[D] = false;
+							go[U] = false;
 						}
 					}
-					pos_x += keys[RIGHT] * 16;
-					pos_x -= keys[LEFT] * 16;
-					pos_y -= keys[UP] * 16;
-					pos_y += keys[DOWN] * 16;
-				}
-				else if (keys[UP])
-				{
-					if (poziom4[((pos_y) / 16) - 3][((pos_x) / 16)] == 1)
+					else if (keys[LEFT])
 					{
-						keys[UP] = false;
-
-						if ((poziom4[((pos_y) / 16) - 2][((pos_x) / 16) + 1] == 1) && (poziom4[((pos_y) / 16) - 2][((pos_x) / 16) - 1] == 1))
+						if (poziom4[im][jm - 1] == 0 || poziom4[im][jm - 1] == 2)
 						{
-							zycie -= 1;
-							graj = false;
-							pos_x = 304;
-							pos_y = 64;
-						}
-						else if (poziom4[((pos_y) / 16) - 2][((pos_x) / 16) + 1] == 1)
-						{
-							keys[LEFT] = true;
-						}
-						else if (poziom4[((pos_y) / 16) - 2][((pos_x) / 16) - 1] == 1)
-						{
-							keys[RIGHT] = true;
+							go[L] = true;
+							go[R] = false;
+							go[D] = false;
+							go[U] = false;
 						}
 					}
-					pos_x += keys[RIGHT] * 16;
-					pos_x -= keys[LEFT] * 16;
-					pos_y -= keys[UP] * 16;
-					pos_y += keys[DOWN] * 16;
-				}
-				else if (keys[DOWN])
-				{
-					if (poziom4[((pos_y) / 16) - 1][((pos_x) / 16)] == 1)
+					else if (keys[UP])
 					{
-						keys[DOWN] = false;
-
-						if ((poziom4[((pos_y) / 16) - 2][((pos_x) / 16) + 1] == 1) && (poziom4[((pos_y) / 16) - 2][((pos_x) / 16) - 1] == 1))
+						if (poziom4[im - 1][jm] == 0 || poziom4[im - 1][jm] == 2)
 						{
-							zycie -= 1;
-							graj = false;
-							pos_x = 304;
-							pos_y = 64;
-						}
-						else if (poziom4[((pos_y) / 16) - 2][((pos_x) / 16) + 1] == 1)
-						{
-							keys[LEFT] = true;
-						}
-						else if (poziom4[((pos_y) / 16) - 2][((pos_x) / 16) - 1] == 1)
-						{
-							keys[RIGHT] = true;
+							go[U] = true;
+							go[L] = false;
+							go[D] = false;
+							go[R] = false;
 						}
 					}
-					pos_x += keys[RIGHT] * 16;
-					pos_x -= keys[LEFT] * 16;
-					pos_y -= keys[UP] * 16;
-					pos_y += keys[DOWN] * 16;
+					else if (keys[DOWN])
+					{
+						if (poziom4[im + 1][jm] == 0 || poziom4[im + 1][jm] == 2)
+						{
+							go[D] = true;
+							go[L] = false;
+							go[R] = false;
+							go[U] = false;
+						}
+					}
+					if (go[R])
+					{
+						if (poziom4[im][jm + 1] == 0)
+						{
+							poziom4[iw][jw] = 0;
+							poziom4[im][jm + 1] = najm - 1;
+						}
+						else if (poziom4[im][jm + 1] == 2)
+						{
+							poziom4[im][jm + 1] = najm - 1;
+							punkty += 50;
+							p++;
+							predkosc = predkoscbazowa;
+						}
+						else // juz wiadomo, ze nie ma przejscia
+						{
+							go[R] = false; // up,down, strata
+
+							if ((poziom4[im - 1][jm] != 0) && (poziom4[im + 1][jm] != 2) && (poziom4[im - 1][jm] != 2) && (poziom4[im + 1][jm] != 0))
+							{
+								zycie -= 1;
+								graj = false;
+								predkosc = predkoscbazowa;
+								keys[RIGHT] = false;
+								keys[UP] = false;
+								keys[LEFT] = false;
+								keys[DOWN] = false;
+								go[R] = false;
+								go[L] = false;
+								go[U] = false;
+								go[D] = false;
+							}
+							else if (poziom4[im + 1][jm] != 0 && poziom4[im + 1][jm] != 2)
+							{
+								go[U] = true;
+								if (poziom4[im - 1][jm] == 0)
+								{
+									poziom4[iw][jw] = 0;
+									poziom4[im - 1][jm] = najm - 1;
+								}
+								else if (poziom4[im - 1][jm] == 2)
+								{
+									poziom4[im - 1][jm] = najm - 1;
+									p++;
+									punkty += 50;
+									predkosc = predkoscbazowa;
+								}
+							}
+							else if (poziom4[im - 1][jm] != 0 && poziom4[im - 1][jm] != 2)
+							{
+								go[D] = true;
+
+								if (poziom4[im + 1][jm] == 0)
+								{
+									poziom4[iw][jw] = 0;
+									poziom4[im + 1][jm] = najm - 1;
+								}
+								else if (poziom4[im + 1][jm] == 2)
+								{
+									poziom4[im + 1][jm] = najm - 1;
+									punkty += 50;
+									p++;
+									predkosc = predkoscbazowa;
+								}
+							}
+						}
+					}
+					else if (go[L])
+					{
+						if (poziom4[im][jm - 1] == 0)
+						{
+							poziom4[iw][jw] = 0;
+							poziom4[im][jm - 1] = najm - 1;
+						}
+						else if (poziom4[im][jm - 1] == 2)
+						{
+							poziom4[im][jm - 1] = najm - 1;
+							punkty += 50;
+							p++;
+							predkosc = predkoscbazowa;
+						}
+						else // juz wiadomo, ze nie ma przejscia
+						{
+							go[L] = false; // up,down, strata
+
+							if ((poziom4[im - 1][jm] != 0) && (poziom4[im + 1][jm] != 2) && (poziom4[im - 1][jm] != 2) && (poziom4[im + 1][jm] != 0))
+							{
+								zycie -= 1;
+								graj = false;
+								predkosc = predkoscbazowa;
+								keys[RIGHT] = false;
+								keys[UP] = false;
+								keys[LEFT] = false;
+								keys[DOWN] = false;
+								go[R] = false;
+								go[L] = false;
+								go[U] = false;
+								go[D] = false;
+							}
+							else if (poziom4[im + 1][jm] != 0 && poziom4[im + 1][jm] != 2)
+							{
+								go[U] = true;
+								if (poziom4[im - 1][jm] == 0)
+								{
+									poziom4[iw][jw] = 0;
+									poziom4[im - 1][jm] = najm - 1;
+								}
+								else if (poziom4[im - 1][jm] == 2)
+								{
+									poziom4[im - 1][jm] = najm - 1;
+									p++;
+									punkty += 50;
+									predkosc = predkoscbazowa;
+								}
+							}
+							else if (poziom4[im - 1][jm] != 0 && poziom4[im - 1][jm] != 2)
+							{
+								go[D] = true;
+
+								if (poziom4[im + 1][jm] == 0)
+								{
+									poziom4[iw][jw] = 0;
+									poziom4[im + 1][jm] = najm - 1;
+								}
+								else if (poziom4[im + 1][jm] == 2)
+								{
+									poziom4[im + 1][jm] = najm - 1;
+									punkty += 50;
+									p++;
+									predkosc = predkoscbazowa;
+								}
+							}
+						}
+					}
+					else if (go[U])
+					{
+						if (poziom4[im - 1][jm] == 0)
+						{
+							poziom4[iw][jw] = 0;
+							poziom4[im - 1][jm] = najm - 1;
+						}
+						else if (poziom4[im - 1][jm] == 2)
+						{
+							poziom4[im - 1][jm] = najm - 1;
+							punkty += 50;
+							p++;
+							predkosc = predkoscbazowa;
+						}
+						else // juz wiadomo, ze nie ma przejscia
+						{
+							go[U] = false; // up,down, strata
+
+							if ((poziom4[im][jm - 1] != 0) && (poziom4[im][jm - 1] != 2) && (poziom4[im][jm + 1] != 2) && (poziom4[im][jm + 1] != 0))
+							{
+								zycie -= 1;
+								graj = false;
+								predkosc = predkoscbazowa;
+								keys[RIGHT] = false;
+								keys[UP] = false;
+								keys[LEFT] = false;
+								keys[DOWN] = false;
+								go[R] = false;
+								go[L] = false;
+								go[U] = false;
+								go[D] = false;
+							}
+							else if (poziom4[im][jm - 1] != 0 && poziom4[im][jm - 1] != 2)
+							{
+								go[R] = true;
+								if (poziom4[im][jm + 1] == 0)
+								{
+									poziom4[iw][jw] = 0;
+									poziom4[im][jm + 1] = najm - 1;
+								}
+								else if (poziom4[im][jm + 1] == 2)
+								{
+									poziom4[im][jm + 1] = najm - 1;
+									p++;
+									punkty += 50;
+									predkosc = predkoscbazowa;
+								}
+							}
+							else if (poziom4[im][jm + 1] != 0 && poziom4[im][jm + 1] != 2)
+							{
+								go[L] = true;
+
+								if (poziom4[im][jm - 1] == 0)
+								{
+									poziom4[iw][jw] = 0;
+									poziom4[im][jm - 1] = najm - 1;
+								}
+								else if (poziom4[im][jm - 1] == 2)
+								{
+									poziom4[im][jm - 1] = najm - 1;
+									punkty += 50;
+									p++;
+									predkosc = predkoscbazowa;
+								}
+							}
+						}
+					}
+					else if (go[D])
+					{
+						if (poziom4[im + 1][jm] == 0)
+						{
+							poziom4[iw][jw] = 0;
+							poziom4[im + 1][jm] = najm - 1;
+						}
+						else if (poziom4[im + 1][jm] == 2)
+						{
+							poziom4[im + 1][jm] = najm - 1;
+							punkty += 50;
+							p++;
+							predkosc = predkoscbazowa;
+						}
+						else // juz wiadomo, ze nie ma przejscia
+						{
+							go[D] = false; // up,down, strata
+
+							if ((poziom4[im][jm - 1] != 0) && (poziom4[im][jm - 1] != 2) && (poziom4[im][jm + 1] != 2) && (poziom4[im][jm + 1] != 0))
+							{
+								zycie -= 1;
+								graj = false;
+								predkosc = predkoscbazowa;
+								keys[RIGHT] = false;
+								keys[UP] = false;
+								keys[LEFT] = false;
+								keys[DOWN] = false;
+								go[R] = false;
+								go[L] = false;
+								go[U] = false;
+								go[D] = false;
+							}
+							else if (poziom4[im][jm - 1] != 0 && poziom4[im][jm - 1] != 2)
+							{
+								go[R] = true;
+								if (poziom4[im][jm + 1] == 0)
+								{
+									poziom4[iw][jw] = 0;
+									poziom4[im][jm + 1] = najm - 1;
+								}
+								else if (poziom4[im][jm + 1] == 2)
+								{
+									poziom4[im][jm + 1] = najm - 1;
+									p++;
+									punkty += 50;
+									predkosc = predkoscbazowa;
+								}
+							}
+							else if (poziom4[im][jm + 1] != 0 && poziom4[im][jm + 1] != 2)
+							{
+								go[L] = true;
+
+								if (poziom4[im][jm - 1] == 0)
+								{
+									poziom4[iw][jw] = 0;
+									poziom4[im][jm - 1] = najm - 1;
+								}
+								else if (poziom4[im][jm - 1] == 2)
+								{
+									poziom4[im][jm - 1] = najm - 1;
+									punkty += 50;
+									p++;
+									predkosc = predkoscbazowa;
+								}
+							}
+						}
+					}
+
+					if ((count % 120 == 0) && graj)
+					{
+						if (predkosc < 59)
+						{
+							predkosc += 3;
+						}
+					}
 				}
+
 			}
+				
 			else if (poziom == 5)
 			{
-				if (poziom5[((pos_y) / 16) - 2][(pos_x) / 16] == 2)
-				{
-					poziom5[((pos_y) / 16) - 2][(pos_x) / 16] = 0;
-					p++;
-					punkty += 50;
-					//waz rosnie
-				}
-
 				al_clear_to_color(al_map_rgb(248, 160, 17));
 				al_draw_text(malaczcionka, al_map_rgb(255, 0, 50), 320, 4, ALLEGRO_ALIGN_CENTRE, "Poziom  5");
 				al_draw_textf(malaczcionka, al_map_rgb(255, 0, 50), 620, 4, ALLEGRO_ALIGN_RIGHT, "%i", punkty);
@@ -1686,15 +1933,35 @@ int main(void)
 						{
 							al_draw_filled_circle((j * 16) + 8, (i * 16) + 40, 4, al_map_rgb(255, 0, 50));
 						}
+						else if (poziom5[i][j] == 0)
+						{}
+						else
+						{
+							al_draw_filled_rectangle(j * 16, (i * 16) + 32, (j * 16) + 16, (i * 16) + 48, al_map_rgb(148, 233, 7));
+						}
 					}
 				}
 				if (!graj)
 				{
 					al_draw_filled_rectangle(50, 200, 590, 280, al_map_rgb(255, 255, 255));
 					al_draw_text(czcionka, al_map_rgb(0, 0, 0), 320, 220, ALLEGRO_ALIGN_CENTRE, "Wcisnij spacje, zeby rozpoczac");
+					for (i = 0; i < 28; i++)
+					{
+						for (j = 0; j < 40; j++)
+						{
+							if (poziom5[i][j] != 1 && poziom5[i][j] != 0 && poziom5[i][j] != 2)
+							{
+								poziom5[i][j] = 0;
+							}
 
+						}
+					}
+					poziom5[4][20] = -5;
+					poziom5[4][19] = -4;
+					poziom5[4][18] = -3;
+					poziom5[4][17] = -2;
+					poziom5[3][17] = -1;
 				}
-				al_draw_filled_rectangle(pos_x, pos_y, pos_x + 16, pos_y + 16, al_map_rgb(148, 233, 7));
 				al_flip_display();
 
 				if (p == p5)
@@ -1708,119 +1975,357 @@ int main(void)
 					keys[UP] = false;
 					keys[LEFT] = false;
 					keys[DOWN] = false;
-					pos_x = 288;
-					pos_y = 96;
+					go[R] = false;
+					go[L] = false;
+					go[D] = false;
+					go[U] = false;
 					punkty += 2000;
 					p = 0;
+					predkosc = predkoscbazowa;
 				}
-				if (keys[RIGHT])
+				//skrecanie
+				if (count % (FPS - predkosc) == 0)
 				{
-					if (poziom5[((pos_y) / 16) - 2][((pos_x) / 16) + 1] == 1)
+					najw = -32000;
+					najm = 1; //szukanie glowy i ogona
+					for (i = 0; i < 28; i++)
 					{
-						keys[RIGHT] = false;
-
-						if ((poziom5[((pos_y) / 16) - 3][((pos_x) / 16)] == 1) && (poziom5[((pos_y) / 16) - 1][((pos_x) / 16)] == 1))
+						for (j = 0; j < 40; j++)
 						{
-							zycie -= 1;
-							graj = false;
-							pos_x = 288;
-							pos_y = 96;
-
-						}
-						else if (poziom5[((pos_y) / 16) - 3][((pos_x) / 16)] == 1)
-						{
-							keys[DOWN] = true;
-						}
-						else if (poziom5[((pos_y) / 16) - 1][((pos_x) / 16)] == 1)
-						{
-							keys[UP] = true;
+							if (poziom5[i][j] < 0)
+							{
+								if (poziom5[i][j] > najw)
+								{
+									najw = poziom5[i][j];
+									iw = i;
+									jw = j;
+								}
+								if (poziom5[i][j] < najm)
+								{
+									najm = poziom5[i][j];
+									im = i;
+									jm = j;
+								}
+							}
 						}
 					}
-					pos_x += keys[RIGHT] * 16;
-					pos_x -= keys[LEFT] * 16;
-					pos_y -= keys[UP] * 16;
-					pos_y += keys[DOWN] * 16;
-				}
-				else if (keys[LEFT])
-				{
-					if (poziom5[((pos_y) / 16) - 2][((pos_x) / 16) - 1] == 1)
-					{
-						keys[LEFT] = false;
 
-						if ((poziom5[((pos_y) / 16) - 3][((pos_x) / 16)] == 1) && (poziom5[((pos_y) / 16) - 1][((pos_x) / 16)] == 1))
+					if (keys[RIGHT])
+					{
+						if (poziom5[im][jm + 1] == 0 || poziom5[im][jm + 1] == 2)
 						{
-							zycie -= 1;
-							graj = false;
-							pos_x = 288;
-							pos_y = 96;
-						}
-						else if (poziom5[((pos_y) / 16) - 3][((pos_x) / 16)] == 1)
-						{
-							keys[DOWN] = true;
-						}
-						else if (poziom5[((pos_y) / 16) - 1][((pos_x) / 16)] == 1)
-						{
-							keys[UP] = true;
+							go[R] = true;
+							go[L] = false;
+							go[D] = false;
+							go[U] = false;
 						}
 					}
-					pos_x += keys[RIGHT] * 16;
-					pos_x -= keys[LEFT] * 16;
-					pos_y -= keys[UP] * 16;
-					pos_y += keys[DOWN] * 16;
-				}
-				else if (keys[UP])
-				{
-					if (poziom5[((pos_y) / 16) - 3][((pos_x) / 16)] == 1)
+					else if (keys[LEFT])
 					{
-						keys[UP] = false;
-
-						if ((poziom5[((pos_y) / 16) - 2][((pos_x) / 16) + 1] == 1) && (poziom5[((pos_y) / 16) - 2][((pos_x) / 16) - 1] == 1))
+						if (poziom5[im][jm - 1] == 0 || poziom5[im][jm - 1] == 2)
 						{
-							zycie -= 1;
-							graj = false;
-							pos_x = 288;
-							pos_y = 96;
-						}
-						else if (poziom5[((pos_y) / 16) - 2][((pos_x) / 16) + 1] == 1)
-						{
-							keys[LEFT] = true;
-						}
-						else if (poziom5[((pos_y) / 16) - 2][((pos_x) / 16) - 1] == 1)
-						{
-							keys[RIGHT] = true;
+							go[L] = true;
+							go[R] = false;
+							go[D] = false;
+							go[U] = false;
 						}
 					}
-					pos_x += keys[RIGHT] * 16;
-					pos_x -= keys[LEFT] * 16;
-					pos_y -= keys[UP] * 16;
-					pos_y += keys[DOWN] * 16;
-				}
-				else if (keys[DOWN])
-				{
-					if (poziom5[((pos_y) / 16) - 1][((pos_x) / 16)] == 1)
+					else if (keys[UP])
 					{
-						keys[DOWN] = false;
-
-						if ((poziom5[((pos_y) / 16) - 2][((pos_x) / 16) + 1] == 1) && (poziom5[((pos_y) / 16) - 2][((pos_x) / 16) - 1] == 1))
+						if (poziom5[im - 1][jm] == 0 || poziom5[im - 1][jm] == 2)
 						{
-							zycie -= 1;
-							graj = false;
-							pos_x = 288;
-							pos_y = 96;
-						}
-						else if (poziom5[((pos_y) / 16) - 2][((pos_x) / 16) + 1] == 1)
-						{
-							keys[LEFT] = true;
-						}
-						else if (poziom5[((pos_y) / 16) - 2][((pos_x) / 16) - 1] == 1)
-						{
-							keys[RIGHT] = true;
+							go[U] = true;
+							go[L] = false;
+							go[D] = false;
+							go[R] = false;
 						}
 					}
-					pos_x += keys[RIGHT] * 16;
-					pos_x -= keys[LEFT] * 16;
-					pos_y -= keys[UP] * 16;
-					pos_y += keys[DOWN] * 16;
+					else if (keys[DOWN])
+					{
+						if (poziom5[im + 1][jm] == 0 || poziom5[im + 1][jm] == 2)
+						{
+							go[D] = true;
+							go[L] = false;
+							go[R] = false;
+							go[U] = false;
+						}
+					}
+
+					if (go[R])
+					{
+						if (poziom5[im][jm + 1] == 0)
+						{
+							poziom5[iw][jw] = 0;
+							poziom5[im][jm + 1] = najm - 1;
+						}
+						else if (poziom5[im][jm + 1] == 2)
+						{
+							poziom5[im][jm + 1] = najm - 1;
+							punkty += 50;
+							p++;
+							predkosc = predkoscbazowa;
+						}
+						else // juz wiadomo, ze nie ma przejscia
+						{
+							go[R] = false; // up,down, strata
+
+							if ((poziom5[im - 1][jm] != 0) && (poziom5[im + 1][jm] != 2) && (poziom5[im - 1][jm] != 2) && (poziom5[im + 1][jm] != 0))
+							{
+								zycie -= 1;
+								graj = false;
+								predkosc = predkoscbazowa;
+								keys[RIGHT] = false;
+								keys[UP] = false;
+								keys[LEFT] = false;
+								keys[DOWN] = false;
+								go[R] = false;
+								go[L] = false;
+								go[U] = false;
+								go[D] = false;
+							}
+							else if (poziom5[im + 1][jm] != 0 && poziom5[im + 1][jm] != 2)
+							{
+								go[U] = true;
+								if (poziom5[im - 1][jm] == 0)
+								{
+									poziom5[iw][jw] = 0;
+									poziom5[im - 1][jm] = najm - 1;
+								}
+								else if (poziom5[im - 1][jm] == 2)
+								{
+									poziom5[im - 1][jm] = najm - 1;
+									p++;
+									punkty += 50;
+									predkosc = predkoscbazowa;
+								}
+							}
+							else if (poziom5[im - 1][jm] != 0 && poziom5[im - 1][jm] != 2)
+							{
+								go[D] = true;
+
+								if (poziom5[im + 1][jm] == 0)
+								{
+									poziom5[iw][jw] = 0;
+									poziom5[im + 1][jm] = najm - 1;
+								}
+								else if (poziom5[im + 1][jm] == 2)
+								{
+									poziom5[im + 1][jm] = najm - 1;
+									punkty += 50;
+									p++;
+									predkosc = predkoscbazowa;
+								}
+							}
+						}
+					}
+					else if (go[L])
+					{
+						if (poziom5[im][jm - 1] == 0)
+						{
+							poziom5[iw][jw] = 0;
+							poziom5[im][jm - 1] = najm - 1;
+						}
+						else if (poziom5[im][jm - 1] == 2)
+						{
+							poziom5[im][jm - 1] = najm - 1;
+							punkty += 50;
+							p++;
+							predkosc = predkoscbazowa;
+						}
+						else // juz wiadomo, ze nie ma przejscia
+						{
+							go[L] = false; // up,down, strata
+
+							if ((poziom5[im - 1][jm] != 0) && (poziom5[im + 1][jm] != 2) && (poziom5[im - 1][jm] != 2) && (poziom5[im + 1][jm] != 0))
+							{
+								zycie -= 1;
+								graj = false;
+								predkosc = predkoscbazowa;
+								keys[RIGHT] = false;
+								keys[UP] = false;
+								keys[LEFT] = false;
+								keys[DOWN] = false;
+								go[R] = false;
+								go[L] = false;
+								go[U] = false;
+								go[D] = false;
+							}
+							else if (poziom5[im + 1][jm] != 0 && poziom5[im + 1][jm] != 2)
+							{
+								go[U] = true;
+								if (poziom5[im - 1][jm] == 0)
+								{
+									poziom5[iw][jw] = 0;
+									poziom5[im - 1][jm] = najm - 1;
+								}
+								else if (poziom5[im - 1][jm] == 2)
+								{
+									poziom5[im - 1][jm] = najm - 1;
+									p++;
+									punkty += 50;
+									predkosc = predkoscbazowa;
+								}
+							}
+							else if (poziom5[im - 1][jm] != 0 && poziom5[im - 1][jm] != 2)
+							{
+								go[D] = true;
+
+								if (poziom5[im + 1][jm] == 0)
+								{
+									poziom5[iw][jw] = 0;
+									poziom5[im + 1][jm] = najm - 1;
+								}
+								else if (poziom5[im + 1][jm] == 2)
+								{
+									poziom5[im + 1][jm] = najm - 1;
+									punkty += 50;
+									p++;
+									predkosc = predkoscbazowa;
+								}
+							}
+						}
+					}
+					else if (go[U])
+					{
+						if (poziom5[im - 1][jm] == 0)
+						{
+							poziom5[iw][jw] = 0;
+							poziom5[im - 1][jm] = najm - 1;
+						}
+						else if (poziom5[im - 1][jm] == 2)
+						{
+							poziom5[im - 1][jm] = najm - 1;
+							punkty += 50;
+							p++;
+							predkosc = predkoscbazowa;
+						}
+						else // juz wiadomo, ze nie ma przejscia
+						{
+							go[U] = false; // up,down, strata
+
+							if ((poziom5[im][jm - 1] != 0) && (poziom5[im][jm - 1] != 2) && (poziom5[im][jm + 1] != 2) && (poziom5[im][jm + 1] != 0))
+							{
+								zycie -= 1;
+								graj = false;
+								predkosc = predkoscbazowa;
+								keys[RIGHT] = false;
+								keys[UP] = false;
+								keys[LEFT] = false;
+								keys[DOWN] = false;
+								go[R] = false;
+								go[L] = false;
+								go[U] = false;
+								go[D] = false;
+							}
+							else if (poziom5[im][jm - 1] != 0 && poziom5[im][jm - 1] != 2)
+							{
+								go[R] = true;
+								if (poziom5[im][jm + 1] == 0)
+								{
+									poziom5[iw][jw] = 0;
+									poziom5[im][jm + 1] = najm - 1;
+								}
+								else if (poziom5[im][jm + 1] == 2)
+								{
+									poziom5[im][jm + 1] = najm - 1;
+									p++;
+									punkty += 50;
+									predkosc = predkoscbazowa;
+								}
+							}
+							else if (poziom5[im][jm + 1] != 0 && poziom5[im][jm + 1] != 2)
+							{
+								go[L] = true;
+
+								if (poziom5[im][jm - 1] == 0)
+								{
+									poziom5[iw][jw] = 0;
+									poziom5[im][jm - 1] = najm - 1;
+								}
+								else if (poziom5[im][jm - 1] == 2)
+								{
+									poziom5[im][jm - 1] = najm - 1;
+									punkty += 50;
+									p++;
+									predkosc = predkoscbazowa;
+								}
+							}
+						}
+					}
+					else if (go[D])
+					{
+						if (poziom5[im + 1][jm] == 0)
+						{
+							poziom5[iw][jw] = 0;
+							poziom5[im + 1][jm] = najm - 1;
+						}
+						else if (poziom5[im + 1][jm] == 2)
+						{
+							poziom5[im + 1][jm] = najm - 1;
+							punkty += 50;
+							p++;
+							predkosc = predkoscbazowa;
+						}
+						else // juz wiadomo, ze nie ma przejscia
+						{
+							go[D] = false; // up,down, strata
+
+							if ((poziom5[im][jm - 1] != 0) && (poziom5[im][jm - 1] != 2) && (poziom5[im][jm + 1] != 2) && (poziom5[im][jm + 1] != 0))
+							{
+								zycie -= 1;
+								graj = false;
+								predkosc = predkoscbazowa;
+								keys[RIGHT] = false;
+								keys[UP] = false;
+								keys[LEFT] = false;
+								keys[DOWN] = false;
+								go[R] = false;
+								go[L] = false;
+								go[U] = false;
+								go[D] = false;
+							}
+							else if (poziom5[im][jm - 1] != 0 && poziom5[im][jm - 1] != 2)
+							{
+								go[R] = true;
+								if (poziom5[im][jm + 1] == 0)
+								{
+									poziom5[iw][jw] = 0;
+									poziom5[im][jm + 1] = najm - 1;
+								}
+								else if (poziom5[im][jm + 1] == 2)
+								{
+									poziom5[im][jm + 1] = najm - 1;
+									p++;
+									punkty += 50;
+									predkosc = predkoscbazowa;
+								}
+							}
+							else if (poziom5[im][jm + 1] != 0 && poziom5[im][jm + 1] != 2)
+							{
+								go[L] = true;
+
+								if (poziom5[im][jm - 1] == 0)
+								{
+									poziom5[iw][jw] = 0;
+									poziom5[im][jm - 1] = najm - 1;
+								}
+								else if (poziom5[im][jm - 1] == 2)
+								{
+									poziom5[im][jm - 1] = najm - 1;
+									punkty += 50;
+									p++;
+									predkosc = predkoscbazowa;
+								}
+							}
+						}
+					}
+					if ((count % 120 == 0) && graj)
+					{
+						if (predkosc < 59)
+						{
+							predkosc += 3;
+						}
+					}
 				}
 			}
 
