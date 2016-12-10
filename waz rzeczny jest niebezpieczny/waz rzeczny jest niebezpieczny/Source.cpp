@@ -197,7 +197,7 @@ int main(void)
 			losowanie = false;
 		}
 
-		if (ev.type == ALLEGRO_EVENT_KEY_DOWN)
+		if (ev.type == ALLEGRO_EVENT_KEY_CHAR)
 		{
 			switch (ev.keyboard.keycode)
 			{
@@ -362,9 +362,25 @@ int main(void)
 
 							if ((poziom1[im-1][jm] != 0) && (poziom1[im+1][jm] != 2) && (poziom1[im - 1][jm] != 2) && (poziom1[im + 1][jm] != 0))
 							{
-								zycie -= 1;
-								graj = false;
-								predkosc = predkoscbazowa;
+								if (poziom1[im][jm - 1] == 0)
+								{
+									keys[LEFT] = true;
+									poziom1[iw][jw] = 0;
+									poziom1[im][jm-1] = najm - 1;
+								}
+								else if (poziom1[im][jm - 1] == 2)
+								{
+									poziom1[im][jm-1] = najm - 1;
+									p++;
+									punkty += 50;
+									predkosc = predkoscbazowa;
+								}
+								else
+								{
+									zycie -= 1;
+									graj = false;
+									predkosc = predkoscbazowa;
+								}
 							}
 							else if (poziom1[im+1][jm] != 0 && poziom1[im + 1][jm] != 2)
 							{
@@ -425,9 +441,25 @@ int main(void)
 
 							if ((poziom1[im+1][jm] != 0) && (poziom1[im-1][jm] != 0) && (poziom1[im + 1][jm] != 2) && (poziom1[im - 1][jm] != 2))
 							{
-								zycie -= 1;
-								graj = false;
-								predkosc = predkoscbazowa;
+								if (poziom1[im][jm + 1] == 0)
+								{
+									keys[RIGHT] = true;
+									poziom1[iw][jw] = 0;
+									poziom1[im][jm + 1] = najm - 1;
+								}
+								else if (poziom1[im][jm + 1] == 2)
+								{
+									poziom1[im][jm + 1] = najm - 1;
+									p++;
+									punkty += 50;
+									predkosc = predkoscbazowa;
+								}
+								else
+								{
+									zycie -= 1;
+									graj = false;
+									predkosc = predkoscbazowa;
+								}
 							}
 							else if (poziom1[im+1][jm] != 0 && poziom1[im+1][jm]!=2)
 							{
@@ -487,9 +519,25 @@ int main(void)
 
 							if ((poziom1[im][jm-1] != 0) && (poziom1[im][jm+1] != 0) && (poziom1[im ][jm-1] != 2) && (poziom1[im][jm+1] != 2))
 							{
-								zycie -= 1;
-								graj = false;
-								predkosc = predkoscbazowa;
+								if (poziom1[im+1][jm] == 0)
+								{
+									keys[DOWN] = true;
+									poziom1[iw][jw] = 0;
+									poziom1[im+1][jm] = najm - 1;
+								}
+								else if (poziom1[im+1][jm] == 2)
+								{
+									poziom1[im+1][jm] = najm - 1;
+									p++;
+									punkty += 50;
+									predkosc = predkoscbazowa;
+								}
+								else
+								{
+									zycie -= 1;
+									graj = false;
+									predkosc = predkoscbazowa;
+								}
 							}
 							else if (poziom1[im][jm+1] != 0 && poziom1[im][jm+1] != 2)
 							{
@@ -549,9 +597,25 @@ int main(void)
 
 							if ((poziom1[im][jm - 1] != 0) && (poziom1[im][jm + 1] != 0) && (poziom1[im][jm - 1] != 2) && (poziom1[im][jm + 1] != 2))
 							{
-								zycie -= 1;
-								graj = false;
-								predkosc = predkoscbazowa;
+								if (poziom1[im - 1][jm] == 0)
+								{
+									keys[UP] = true;
+									poziom1[iw][jw] = 0;
+									poziom1[im - 1][jm] = najm - 1;
+								}
+								else if (poziom1[im - 1][jm] == 2)
+								{
+									poziom1[im - 1][jm] = najm - 1;
+									p++;
+									punkty += 50;
+									predkosc = predkoscbazowa;
+								}
+								else
+								{
+									zycie -= 1;
+									graj = false;
+									predkosc = predkoscbazowa;
+								}
 							}
 							else if (poziom1[im][jm + 1] != 0 && poziom1[im][jm + 1] != 2)
 							{
@@ -603,7 +667,7 @@ int main(void)
 							}
 						}
 					}
-					if (count % 120 == 0)
+					if ((count % 120 == 0) && graj)
 					{
 						if (predkosc < 59)
 						{
@@ -1257,7 +1321,6 @@ int main(void)
 
 	al_destroy_bitmap(stronatytulowa);
 	al_destroy_bitmap(serce1);
-
 	al_destroy_bitmap(serce2);
 	al_destroy_bitmap(serce3);
 	al_destroy_bitmap(serce4);
