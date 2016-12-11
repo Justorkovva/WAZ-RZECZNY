@@ -38,11 +38,9 @@ int main(void)
 	bool tytul = true;
 	bool graj = false;
 	bool przegrales = true;
-	int pos_x = 288;
-	int pos_y = 96;
 	int predkoscbazowa = 50;
 	int predkosc=predkoscbazowa;
-	short int p=0,p1=70,p2=130,p3=150,p4=100,p5=180,los,los2,i,j,najw,najm,im,jm,iw,jw; //120 130 150 100 180
+	short int p=0,p1=85,p2=110,p3=130,p4=100,p5=160,los,los2,i,j,najw,najm,im,jm,iw,jw; //120 130 150 100 180
 	short poziom = 0;
 
 	ALLEGRO_DISPLAY *okno = NULL;
@@ -191,7 +189,7 @@ int main(void)
 
 				if (poziom5[los][los2] == 0)
 				{
-					if ((los != 6 && los2 != 3) && (los != 10 && los2 != 4) && (los != 17 && los2 != 4))
+					if ((los != 6 && los2 != 3) && (los != 10 && los2 != 4) && (los != 17 && los2 != 4) && (los != 4 && los2 != 20) && (los != 4 && los2 != 19) && (los != 4 && los2 != 18) && (los != 4 && los2 != 17) && (los != 3 && los2 != 17))
 					{
 						poziom5[los][los2] = 2;
 						p++;
@@ -298,6 +296,14 @@ int main(void)
 				}
 				if (!graj) // komunikat i zerowanie pozycji weza
 				{
+					keys[RIGHT] = false;
+					keys[UP] = false;
+					keys[LEFT] = false;
+					keys[DOWN] = false;
+					go[R] = false;
+					go[L] = false;
+					go[U] = false;
+					go[D] = false;
 					al_draw_filled_rectangle(50, 200, 590, 280, al_map_rgb(255, 255, 255));
 					al_draw_text(czcionka, al_map_rgb(0, 0, 0), 320, 220, ALLEGRO_ALIGN_CENTRE, "Wcisnij spacje, zeby rozpoczac");
 					for (i = 0; i < 28; i++)
@@ -704,12 +710,20 @@ int main(void)
 						{}
 						else
 						{
-							al_draw_filled_rectangle(j * 16, (i * 16) + 32, (j * 16) + 16, (i * 16) + 48, al_map_rgb(148, 233, 7));
+							al_draw_filled_rectangle(j * 16, (i * 16) + 32, (j * 16) + 16, (i * 16) + 48, al_map_rgb(80, 23, 255));
 						}
 					}
 				}
 				if (!graj)
 				{
+					keys[RIGHT] = false;
+					keys[UP] = false;
+					keys[LEFT] = false;
+					keys[DOWN] = false;
+					go[R] = false;
+					go[L] = false;
+					go[U] = false;
+					go[D] = false;
 					al_draw_filled_rectangle(50, 200, 590, 280, al_map_rgb(255, 255, 255));
 					al_draw_text(czcionka, al_map_rgb(0, 0, 0), 320, 220, ALLEGRO_ALIGN_CENTRE, "Wcisnij spacje, zeby rozpoczac");
 					for (i = 0; i < 28; i++)
@@ -1113,7 +1127,7 @@ int main(void)
 						{}
 						else
 						{
-						al_draw_filled_rectangle(j * 16, (i * 16) + 32, (j * 16) + 16, (i * 16) + 48, al_map_rgb(148, 233, 7));
+						al_draw_filled_rectangle(j * 16, (i * 16) + 32, (j * 16) + 16, (i * 16) + 48, al_map_rgb(200, 23, 0));
 						}
 
 					}
@@ -1121,6 +1135,14 @@ int main(void)
 				}
 				if (!graj)
 				{
+					keys[RIGHT] = false;
+					keys[UP] = false;
+					keys[LEFT] = false;
+					keys[DOWN] = false;
+					go[R] = false;
+					go[L] = false;
+					go[U] = false;
+					go[D] = false;
 					al_draw_filled_rectangle(50, 200, 590, 280, al_map_rgb(255, 255, 255));
 					al_draw_text(czcionka, al_map_rgb(0, 0, 0), 320, 220, ALLEGRO_ALIGN_CENTRE, "Wcisnij spacje, zeby rozpoczac");
 				
@@ -1504,8 +1526,7 @@ int main(void)
 						}
 					}
 				}
-			}
-					
+			}		
 			else if (poziom == 4)
 			{
 				al_clear_to_color(al_map_rgb(180, 0, 255));
@@ -1531,6 +1552,14 @@ int main(void)
 				}
 				if (!graj)
 				{
+					keys[RIGHT] = false;
+					keys[UP] = false;
+					keys[LEFT] = false;
+					keys[DOWN] = false;
+					go[R] = false;
+					go[L] = false;
+					go[U] = false;
+					go[D] = false;
 					al_draw_filled_rectangle(50, 200, 590, 280, al_map_rgb(255, 255, 255));
 					al_draw_text(czcionka, al_map_rgb(0, 0, 0), 320, 220, ALLEGRO_ALIGN_CENTRE, "Wcisnij spacje, zeby rozpoczac");
 					for (i = 0; i < 28; i++)
@@ -1912,8 +1941,7 @@ int main(void)
 					}
 				}
 
-			}
-				
+			}	
 			else if (poziom == 5)
 			{
 				al_clear_to_color(al_map_rgb(248, 160, 17));
@@ -1937,12 +1965,20 @@ int main(void)
 						{}
 						else
 						{
-							al_draw_filled_rectangle(j * 16, (i * 16) + 32, (j * 16) + 16, (i * 16) + 48, al_map_rgb(148, 233, 7));
+							al_draw_filled_rectangle(j * 16, (i * 16) + 32, (j * 16) + 16, (i * 16) + 48, al_map_rgb(2, 3, 255));
 						}
 					}
 				}
 				if (!graj)
 				{
+					keys[RIGHT] = false;
+					keys[UP] = false;
+					keys[LEFT] = false;
+					keys[DOWN] = false;
+					go[R] = false;
+					go[L] = false;
+					go[U] = false;
+					go[D] = false;
 					al_draw_filled_rectangle(50, 200, 590, 280, al_map_rgb(255, 255, 255));
 					al_draw_text(czcionka, al_map_rgb(0, 0, 0), 320, 220, ALLEGRO_ALIGN_CENTRE, "Wcisnij spacje, zeby rozpoczac");
 					for (i = 0; i < 28; i++)
@@ -1969,7 +2005,7 @@ int main(void)
 					//cos na zasadzie strony tytulowej, ale gratulacje przejscia gry zrobic, i dopiero wtedy poziom=1
 					// i losowanie na nowo zrobic
 					losowanie = true;
-					poziom=1;
+					poziom=0;
 					graj = false;
 					keys[RIGHT] = false;
 					keys[UP] = false;
