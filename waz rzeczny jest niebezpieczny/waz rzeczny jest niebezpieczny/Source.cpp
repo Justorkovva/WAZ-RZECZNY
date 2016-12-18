@@ -28,7 +28,7 @@ int main(void)
 
 	int count = 0;
 	short int FPS = 60;
-	short int zycie = 3;
+	short int zycie = 5;
 	long long int punkty = 0;
 
 	bool keys[4] = { false, false, false, false };
@@ -189,7 +189,7 @@ int main(void)
 
 				if (poziom5[los][los2] == 0)
 				{
-					if ((los != 6 && los2 != 3) && (los != 10 && los2 != 4) && (los != 17 && los2 != 4) && (los != 4 && los2 != 20) && (los != 4 && los2 != 19) && (los != 4 && los2 != 18) && (los != 4 && los2 != 17) && (los != 3 && los2 != 17))
+					if ((los != 4 && los2 != 20) && (los != 4 && los2 != 19) && (los != 4 && los2 != 18) && (los != 4 && los2 != 17) && (los != 3 && los2 != 17) && (los != 6 && los2 != 3) && (los != 10 && los2 != 4) && (los != 17 && los2 != 4) && (los != 4 && los2 != 20) && (los != 4 && los2 != 19) && (los != 4 && los2 != 18) && (los != 4 && los2 != 17) && (los != 3 && los2 != 17))
 					{
 						poziom5[los][los2] = 2;
 						p++;
@@ -681,15 +681,15 @@ int main(void)
 
 
 					
-					if ((count % 120 == 0) && graj)
+					
+				}
+				if ((count % 120 == 0) && graj)
+				{
+					if (predkosc < 59)
 					{
-						if (predkosc < 59)
-						{
-							predkosc+=3;
-						}
+						predkosc += 1;
 					}
 				}
-
 			}
 			else if (poziom == 2)
 			{
@@ -1098,15 +1098,15 @@ int main(void)
 							}
 						}
 					}
-					if ((count % 120 == 0) && graj)
+					
+				}
+				if ((count % 120 == 0) && graj)
+				{
+					if (predkosc < 59)
 					{
-						if (predkosc < 59)
-						{
-							predkosc += 3;
-						}
+						predkosc += 1;
 					}
 				}
-
 			}
 			else if (poziom == 3)
 			{
@@ -1518,12 +1518,13 @@ int main(void)
 							}
 						}
 					}
-					if ((count % 120 == 0) && graj)
+					
+				}
+				if ((count % 120 == 0) && graj)
+				{
+					if (predkosc < 59)
 					{
-						if (predkosc < 59)
-						{
-							predkosc += 3;
-						}
+						predkosc += 1;
 					}
 				}
 			}		
@@ -1932,15 +1933,15 @@ int main(void)
 						}
 					}
 
-					if ((count % 120 == 0) && graj)
+				
+				}
+				if ((count % 120 == 0) && graj)
+				{
+					if (predkosc < 59)
 					{
-						if (predkosc < 59)
-						{
-							predkosc += 3;
-						}
+						predkosc += 1;
 					}
 				}
-
 			}	
 			else if (poziom == 5)
 			{
@@ -2355,12 +2356,13 @@ int main(void)
 							}
 						}
 					}
-					if ((count % 120 == 0) && graj)
+					
+				}
+				if ((count % 120 == 0) && graj)
+				{
+					if (predkosc < 59)
 					{
-						if (predkosc < 59)
-						{
-							predkosc += 3;
-						}
+						predkosc += 1;
 					}
 				}
 			}
