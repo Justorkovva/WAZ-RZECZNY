@@ -10,10 +10,12 @@
 #include<ctime>
 using namespace std;
 
-//predkosc zwieksza sie w czasie, dodatkowo po przejsciu wszystkich lvl zaczyna sie od nowa z wieksza predkoscia
-//trzeba wymyslic funkcje pojawiania sie kolejnych cz³onow (easy), ale potem zmieniania polozenia przy skrecaniu
+
+// naprawic losowanie dla miejsc gdzie nie moze byc
+//dodac baczki, moze jakies animacje, muzyczke
 //jakas bitmapa na zakonczenie gry dla przegrales i dla 5 poziomow ukonczonych
-//zeby sie nie zatrzymywalo na prostej, chyba ze kosztem predkosci. jakas funkcja w czasie, ze rysuje co % iles, a potem % mniej
+//dodatkowe punkty za czas
+//zycie za punkty
 
 enum KEYS { DOWN, UP, LEFT, RIGHT };
 enum GO {D, U, L, R};
@@ -28,12 +30,13 @@ int main(void)
 
 	int count = 0;
 	short int FPS = 60;
-	short int zycie = 5;
+	short int zycie = 3;
 	long long int punkty = 0;
 
 	bool keys[4] = { false, false, false, false };
 	bool go[4] = { false, false, false, false };
 	bool done = false;
+	bool koniec = false;
 	bool losowanie=true; //losuje elementy i wczytuje na nowo do tablicy, przydatne jak sie bedzie gralo na nowo
 	bool tytul = true;
 	bool graj = false;
@@ -42,6 +45,7 @@ int main(void)
 	int predkosc=predkoscbazowa;
 	short int p=0,p1=85,p2=110,p3=130,p4=100,p5=160,los,los2,i,j,najw,najm,im,jm,iw,jw; //120 130 150 100 180
 	short poziom = 0;
+	string imie = "Justyna";
 
 	ALLEGRO_DISPLAY *okno = NULL;
 	ALLEGRO_EVENT_QUEUE *event_queue = NULL;
@@ -54,6 +58,7 @@ int main(void)
 	ALLEGRO_BITMAP *serce3 = al_load_bitmap("serce3.png");
 	ALLEGRO_BITMAP *serce4 = al_load_bitmap("serce4.png");
 	ALLEGRO_BITMAP *serce5 = al_load_bitmap("serce5.png");
+	ALLEGRO_BITMAP *wynikikoniec = al_load_bitmap("koniec.png");
 
 	if (!al_init())
 	{
@@ -73,6 +78,8 @@ int main(void)
 	ifstream plik3;
 	ifstream plik4;
 	ifstream plik5;
+	fstream wyniki;
+	wyniki.open("scores.txt");
 	plik.open("poziom1.txt");
 	plik2.open("poziom2.txt");
 	plik3.open("poziom3.txt");
@@ -198,6 +205,20 @@ int main(void)
 			}
 			p = 0;
 			losowanie = false;
+		}
+
+		if (koniec)
+		{
+			//raz posegregowac wyniki, znalezc miejsce i wyswietlic
+			if (count % 60 == 0) //bo sie zawiesza
+			{
+				al_draw_bitmap(wynikikoniec, 0, 0, 0);
+				al_draw_text(malaczcionka, al_map_rgb(224, 58, 220), 230, 160, 0, "1.");
+				al_draw_textf(malaczcionka, al_map_rgb(224, 58, 220), 256, 160, 0, "%s", imie.c_str());
+				al_draw_textf(malaczcionka, al_map_rgb(224, 58, 220), 360, 160, 0, "%i", punkty);
+
+				al_flip_display();
+			}
 		}
 
 		if (ev.type == ALLEGRO_EVENT_KEY_DOWN)
@@ -2003,10 +2024,7 @@ int main(void)
 
 				if (p == p5)
 				{
-					//cos na zasadzie strony tytulowej, ale gratulacje przejscia gry zrobic, i dopiero wtedy poziom=1
-					// i losowanie na nowo zrobic
-					losowanie = true;
-					poziom=0;
+					koniec = true;
 					graj = false;
 					keys[RIGHT] = false;
 					keys[UP] = false;
@@ -2367,9 +2385,10 @@ int main(void)
 				}
 			}
 
-			if (zycie == 0)
+			if (zycie < 0)
 			{
-				przegrales = true;
+				poziom = 0;
+				koniec = true;
 			}
 		}
 	}
