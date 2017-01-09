@@ -30,7 +30,7 @@ int main(void)
 
 	int count = 0;
 	short int FPS = 60;
-	short int zycie = 0;
+	short int zycie = 2;
 	long long int punkty = 0;
 
 	bool keys[4] = { false, false, false, false };
@@ -42,11 +42,12 @@ int main(void)
 	bool graj = false;
 	bool przegrales = true;
 	bool sort = false;
+	bool dane = true;
 	int predkoscbazowa = 50;
 	int predkosc=predkoscbazowa;
 	short int p=0,p1=85,p2=110,p3=130,p4=100,p5=160,los,los2,i,j,najw,najm,im,jm,iw,jw; //120 130 150 100 180
 	short poziom = 0;
-	string imie = "Hehe";
+	string imie = "serio";
 	string player1, player2, player3, player4, player5, player6;
 	int wynik1, wynik2, wynik3, wynik4, wynik5, wynik6;
 
@@ -69,7 +70,6 @@ int main(void)
 	}
 
 	timer = al_create_timer(1.0 / FPS);
-
 	okno = al_create_display(640, 480);
 	event_queue = al_create_event_queue();
 	al_register_event_source(event_queue, al_get_keyboard_event_source());
@@ -81,10 +81,7 @@ int main(void)
 	ifstream plik3;
 	ifstream plik4;
 	ifstream plik5;
-	//fstream wyniki;
 	ifstream wyniki("scores.txt");
-	
-	//wyniki.open("scores.txt");
 	plik.open("poziom1.txt");
 	plik2.open("poziom2.txt");
 	plik3.open("poziom3.txt");
@@ -125,6 +122,19 @@ int main(void)
 
 		if (tytul)
 		{
+			if (dane)
+			{
+				if (count % 120 == 0)
+				{
+					al_draw_text(malaczcionka, al_map_rgb(224, 58, 220), 246, 160, 0, "Podaj swoje imie");
+					
+					al_flip_display();
+				//	cin >> imie;
+					dane = false;
+					al_draw_textf(malaczcionka, al_map_rgb(224, 58, 220), 246, 160, 0, "%s", imie.c_str());
+					al_flip_display();
+				}
+			}
 			if (count == 0)
 			{
 				al_draw_bitmap(stronatytulowa, 0, 0, 0);
@@ -2146,6 +2156,7 @@ int main(void)
 				if (p == p5)
 				{
 					koniec = true;
+					sort = true;
 					graj = false;
 					keys[RIGHT] = false;
 					keys[UP] = false;
@@ -2157,6 +2168,7 @@ int main(void)
 					go[U] = false;
 					punkty += 2000;
 					p = 0;
+					poziom = 6;
 					predkosc = predkoscbazowa;
 				}
 				//skrecanie
