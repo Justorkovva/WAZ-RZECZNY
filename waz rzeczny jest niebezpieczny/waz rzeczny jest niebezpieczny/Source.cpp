@@ -13,21 +13,32 @@ using namespace std;
 
 // naprawic losowanie dla miejsc gdzie nie moze byc
 //dodac baczki, moze jakies animacje, muzyczke
-//jakas bitmapa na zakonczenie gry dla przegrales i dla 5 poziomow ukonczonych
 //dodatkowe punkty za czas
-//zycie za punkty
 
 enum KEYS { DOWN, UP, LEFT, RIGHT };
 enum GO {D, U, L, R};
 int main(void)
 {
-	al_init();
-	al_init_primitives_addon();
-	al_install_keyboard();
-	al_init_image_addon();
-	al_init_font_addon();
-	al_init_ttf_addon();
+		al_init();
+		al_init_primitives_addon();
+		al_install_keyboard();
+		al_init_image_addon();
+		al_init_font_addon();
+		al_init_ttf_addon();
+		ALLEGRO_DISPLAY *okno = NULL;
+		ALLEGRO_EVENT_QUEUE *event_queue = NULL;
+		ALLEGRO_FONT *czcionka = al_load_font("ALGER.ttf", 30, 0);
+		ALLEGRO_FONT *malaczcionka = al_load_font("ALGER.ttf", 22, 0);
+		ALLEGRO_TIMER *timer = NULL;
+		ALLEGRO_BITMAP *stronatytulowa = al_load_bitmap("waz.jpg");
+		ALLEGRO_BITMAP *serce1 = al_load_bitmap("serce1.png");
+		ALLEGRO_BITMAP *serce2 = al_load_bitmap("serce2.png");
+		ALLEGRO_BITMAP *serce3 = al_load_bitmap("serce3.png");
+		ALLEGRO_BITMAP *serce4 = al_load_bitmap("serce4.png");
+		ALLEGRO_BITMAP *serce5 = al_load_bitmap("serce5.png");
+		ALLEGRO_BITMAP *wynikikoniec = al_load_bitmap("koniec.png");
 
+	
 	int count = 0;
 	short int FPS = 60;
 	short int zycie = 2;
@@ -37,7 +48,7 @@ int main(void)
 	bool go[4] = { false, false, false, false };
 	bool done = false;
 	bool koniec = false;
-	bool losowanie=true; //losuje elementy i wczytuje na nowo do tablicy, przydatne jak sie bedzie gralo na nowo
+	bool losowanie=true; 
 	bool tytul = true;
 	bool graj = false;
 	bool przegrales = true;
@@ -47,23 +58,11 @@ int main(void)
 	int predkosc=predkoscbazowa;
 	short int p=0,p1=85,p2=110,p3=130,p4=100,p5=160,los,los2,i,j,najw,najm,im,jm,iw,jw; //120 130 150 100 180
 	short poziom = 0;
-	string imie = "serio";
+	string imie = "gracz";
 	string player1, player2, player3, player4, player5, player6;
 	int wynik1, wynik2, wynik3, wynik4, wynik5, wynik6;
 
-	ALLEGRO_DISPLAY *okno = NULL;
-	ALLEGRO_EVENT_QUEUE *event_queue = NULL;
-	ALLEGRO_FONT *czcionka = al_load_font("ALGER.ttf", 30, 0);
-	ALLEGRO_FONT *malaczcionka = al_load_font("ALGER.ttf", 22, 0);
-	ALLEGRO_TIMER *timer = NULL;
-	ALLEGRO_BITMAP *stronatytulowa = al_load_bitmap("waz.png");
-	ALLEGRO_BITMAP *serce1 = al_load_bitmap("serce1.png");
-	ALLEGRO_BITMAP *serce2 = al_load_bitmap("serce2.png");
-	ALLEGRO_BITMAP *serce3 = al_load_bitmap("serce3.png");
-	ALLEGRO_BITMAP *serce4 = al_load_bitmap("serce4.png");
-	ALLEGRO_BITMAP *serce5 = al_load_bitmap("serce5.png");
-	ALLEGRO_BITMAP *wynikikoniec = al_load_bitmap("koniec.png");
-
+	
 	if (!al_init())
 	{
 		return -1;
@@ -140,7 +139,7 @@ int main(void)
 				al_draw_bitmap(stronatytulowa, 0, 0, 0);
 				al_flip_display();
 			}
-			if (count == 60)
+			if (count == 300)
 			{
 				tytul = false;
 				poziom = 1;
