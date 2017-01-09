@@ -30,7 +30,7 @@ int main(void)
 
 	int count = 0;
 	short int FPS = 60;
-	short int zycie = 3;
+	short int zycie = 0;
 	long long int punkty = 0;
 
 	bool keys[4] = { false, false, false, false };
@@ -41,11 +41,14 @@ int main(void)
 	bool tytul = true;
 	bool graj = false;
 	bool przegrales = true;
+	bool sort = false;
 	int predkoscbazowa = 50;
 	int predkosc=predkoscbazowa;
 	short int p=0,p1=85,p2=110,p3=130,p4=100,p5=160,los,los2,i,j,najw,najm,im,jm,iw,jw; //120 130 150 100 180
 	short poziom = 0;
-	string imie = "Justyna";
+	string imie = "Hehe";
+	string player1, player2, player3, player4, player5, player6;
+	int wynik1, wynik2, wynik3, wynik4, wynik5, wynik6;
 
 	ALLEGRO_DISPLAY *okno = NULL;
 	ALLEGRO_EVENT_QUEUE *event_queue = NULL;
@@ -78,8 +81,10 @@ int main(void)
 	ifstream plik3;
 	ifstream plik4;
 	ifstream plik5;
-	fstream wyniki;
-	wyniki.open("scores.txt");
+	//fstream wyniki;
+	ifstream wyniki("scores.txt");
+	
+	//wyniki.open("scores.txt");
 	plik.open("poziom1.txt");
 	plik2.open("poziom2.txt");
 	plik3.open("poziom3.txt");
@@ -91,6 +96,19 @@ int main(void)
 	short int poziom4[28][40];
 	short int poziom5[28][40];
 	
+	wyniki >> player1;
+	wyniki >> wynik1;
+	wyniki >> player2;
+	wyniki >> wynik2;
+	wyniki >> player3;
+	wyniki >> wynik3;
+	wyniki >> player4;
+	wyniki >> wynik4;
+	wyniki >> player5;
+	wyniki >> wynik5;
+	wyniki >> player6;
+	wyniki >> wynik6;
+
 	srand(time(NULL));
 
 	if (!okno)
@@ -209,16 +227,119 @@ int main(void)
 
 		if (koniec)
 		{
-			//raz posegregowac wyniki, znalezc miejsce i wyswietlic
-			if (count % 60 == 0) //bo sie zawiesza
+			//sortowanie
+			if ((punkty > wynik6) && sort==1)
+			{
+				sort = false ;
+				if (punkty > wynik1)
+				{
+					wynik6 = wynik5;
+					wynik5 = wynik4;
+					wynik4 = wynik3;
+					wynik3 = wynik2;
+					wynik2 = wynik1;
+					wynik1 = punkty;
+					player6 = player5;
+					player5 = player4;
+					player4 = player3;
+					player3 = player2;
+					player2 = player1;
+					player1 = imie;
+				}
+				else if (punkty > wynik2)
+				{
+					wynik6 = wynik5;
+					wynik5 = wynik4;
+					wynik4 = wynik3;
+					wynik3 = wynik2;
+					wynik2 = punkty;
+					player6 = player5;
+					player5 = player4;
+					player4 = player3;
+					player3 = player2;
+					player2 = imie;
+				}
+				else if (punkty > wynik3)
+				{
+					wynik6 = wynik5;
+					wynik5 = wynik4;
+					wynik4 = wynik3;
+					wynik3 = punkty;
+					player6 = player5;
+					player5 = player4;
+					player4 = player3;
+					player3 = imie;
+				}
+				else if(punkty > wynik4)
+				{ 
+					wynik6 = wynik5;
+					wynik5 = wynik4;
+					wynik4 = punkty;
+					player6 = player5;
+					player5 = player4;
+					player4 = imie;
+				}
+				else if (punkty > wynik5)
+				{
+					wynik6 = wynik5;
+					wynik5 = punkty;
+					player6 = player5;
+					player5 = imie;
+				}
+				else if (punkty > wynik6)
+				{
+					wynik6 = punkty;
+					player6 = imie;
+				}
+			
+				wyniki.close();
+				ofstream out("scores.txt");
+				//zapisywanie
+				out << player1 << " ";
+				out << wynik1<<endl;
+				out << player2 << " ";
+				out << wynik2 << endl;
+				out << player3 << " ";
+				out << wynik3 << endl;
+				out << player4 << " ";
+				out << wynik4 << endl;
+				out << player5 << " ";
+				out << wynik5 << endl;
+				out << player6 << " ";
+				out << wynik6 << endl;
+				
+			}
+			
+			//wyswietlanie
+			if (count % 60 == 0) //bo sie zawiesza, wywietlanie wynikow
 			{
 				al_draw_bitmap(wynikikoniec, 0, 0, 0);
-				al_draw_text(malaczcionka, al_map_rgb(224, 58, 220), 230, 160, 0, "1.");
-				al_draw_textf(malaczcionka, al_map_rgb(224, 58, 220), 256, 160, 0, "%s", imie.c_str());
+				al_draw_textf(malaczcionka, al_map_rgb(224, 58, 220), 246, 160, 0, "%s", imie.c_str());
 				al_draw_textf(malaczcionka, al_map_rgb(224, 58, 220), 360, 160, 0, "%i", punkty);
+				al_draw_text(malaczcionka, al_map_rgb(224, 58, 220), 230, 200, 0, "1.");
+				al_draw_textf(malaczcionka, al_map_rgb(224, 58, 220), 256, 200, 0, "%s", player1.c_str());
+				al_draw_textf(malaczcionka, al_map_rgb(224, 58, 220), 395, 200, 0, "%i", wynik1);
+				al_draw_text(malaczcionka, al_map_rgb(224, 58, 220), 230, 230, 0, "2.");
+				al_draw_textf(malaczcionka, al_map_rgb(224, 58, 220), 256, 230, 0, "%s", player2.c_str());
+				al_draw_textf(malaczcionka, al_map_rgb(224, 58, 220), 395, 230, 0, "%i", wynik2);
+				al_draw_text(malaczcionka, al_map_rgb(224, 58, 220), 230, 260, 0, "3.");
+				al_draw_textf(malaczcionka, al_map_rgb(224, 58, 220), 256, 260, 0, "%s", player3.c_str());
+				al_draw_textf(malaczcionka, al_map_rgb(224, 58, 220), 395, 260, 0, "%i", wynik3);
+				al_draw_text(malaczcionka, al_map_rgb(224, 58, 220), 230, 290, 0, "4.");
+				al_draw_textf(malaczcionka, al_map_rgb(224, 58, 220), 256, 290, 0, "%s", player4.c_str());
+				al_draw_textf(malaczcionka, al_map_rgb(224, 58, 220), 395, 290, 0, "%i", wynik4);
+				al_draw_text(malaczcionka, al_map_rgb(224, 58, 220), 230, 320, 0, "5.");
+				al_draw_textf(malaczcionka, al_map_rgb(224, 58, 220), 256, 320, 0, "%s", player5.c_str());
+				al_draw_textf(malaczcionka, al_map_rgb(224, 58, 220), 395, 320, 0, "%i", wynik5);
+				al_draw_text(malaczcionka, al_map_rgb(224, 58, 220), 230, 350, 0, "6.");
+				al_draw_textf(malaczcionka, al_map_rgb(224, 58, 220), 256, 350, 0, "%s", player6.c_str());
+				al_draw_textf(malaczcionka, al_map_rgb(224, 58, 220), 395, 350, 0, "%i", wynik6);
+
 
 				al_flip_display();
 			}
+		
+			
 		}
 
 		if (ev.type == ALLEGRO_EVENT_KEY_DOWN)
@@ -2385,10 +2506,22 @@ int main(void)
 				}
 			}
 
-			if (zycie < 0)
+			if ((zycie < 0) && poziom>0)
 			{
 				poziom = 0;
 				koniec = true;
+				sort = true;
+				graj = false;
+				keys[RIGHT] = false;
+				keys[UP] = false;
+				keys[LEFT] = false;
+				keys[DOWN] = false;
+				go[R] = false;
+				go[L] = false;
+				go[D] = false;
+				go[U] = false;
+				p = 0;
+				predkosc = predkoscbazowa;
 			}
 		}
 	}
