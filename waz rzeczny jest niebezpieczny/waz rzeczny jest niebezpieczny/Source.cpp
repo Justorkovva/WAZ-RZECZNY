@@ -58,7 +58,8 @@ int main(void)
 	int predkosc=predkoscbazowa;
 	short int p=0,p1=85,p2=110,p3=130,p4=100,p5=160,los,los2,i,j,najw,najm,im,jm,iw,jw; //120 130 150 100 180
 	short poziom = 0;
-	string imie = "gracz";
+	string imie="        ";
+	int literka = 0;
 	string player1, player2, player3, player4, player5, player6;
 	int wynik1, wynik2, wynik3, wynik4, wynik5, wynik6;
 
@@ -123,27 +124,23 @@ int main(void)
 		{
 			if (dane)
 			{
-				if (count % 120 == 0)
-				{
+					al_clear_to_color(al_map_rgb(0, 0, 0));
 					al_draw_text(malaczcionka, al_map_rgb(224, 58, 220), 246, 160, 0, "Podaj swoje imie");
-					
+					al_draw_textf(malaczcionka, al_map_rgb(224, 58, 220), 246, 200, 0, "%s", imie.c_str());
 					al_flip_display();
-				//	cin >> imie;
-					dane = false;
-					al_draw_textf(malaczcionka, al_map_rgb(224, 58, 220), 246, 160, 0, "%s", imie.c_str());
-					al_flip_display();
-				}
+				
 			}
-			if (count == 0)
+			if (count == 0 && !dane)
 			{
 				al_draw_bitmap(stronatytulowa, 0, 0, 0);
 				al_flip_display();
 			}
-			if (count == 300)
+			if (count == 300 && !dane)
 			{
 				tytul = false;
 				poziom = 1;
 			}
+			
 		}
 		
 		if(losowanie) //wrzuca z pliku do tablicy, losuje elementy i liczy ile ich jest
@@ -323,7 +320,7 @@ int main(void)
 			if (count % 60 == 0) //bo sie zawiesza, wywietlanie wynikow
 			{
 				al_draw_bitmap(wynikikoniec, 0, 0, 0);
-				al_draw_textf(malaczcionka, al_map_rgb(224, 58, 220), 246, 160, 0, "%s", imie.c_str());
+				al_draw_textf(malaczcionka, al_map_rgb(224, 58, 220), 226, 160, 0, "%s", imie.c_str());
 				al_draw_textf(malaczcionka, al_map_rgb(224, 58, 220), 360, 160, 0, "%i", punkty);
 				al_draw_text(malaczcionka, al_map_rgb(224, 58, 220), 230, 200, 0, "1.");
 				al_draw_textf(malaczcionka, al_map_rgb(224, 58, 220), 256, 200, 0, "%s", player1.c_str());
@@ -355,6 +352,189 @@ int main(void)
 		{
 			switch (ev.keyboard.keycode)
 			{
+			case ALLEGRO_KEY_Q:
+				if (dane && literka<8)
+				{
+					imie[literka] = 'Q';
+					literka++;
+				}
+				break;
+			case ALLEGRO_KEY_W:
+				if (dane && literka<8)
+				{
+					imie[literka] = 'W';
+					literka++;
+				}
+				break;
+			case ALLEGRO_KEY_E:
+				if (dane && literka<8)
+				{
+					imie[literka] = 'E';
+					literka++;
+				}
+				break;
+			case ALLEGRO_KEY_R:
+				if (dane && literka<8)
+				{
+					imie[literka] = 'R';
+					literka++;
+				}
+				break;
+			case ALLEGRO_KEY_T:
+				if (dane && literka<8)
+				{
+					imie[literka] = 'T';
+					literka++;
+				}
+				break;
+			case ALLEGRO_KEY_Y:
+				if (dane && literka<8)
+				{
+					imie[literka] = 'Y';
+					literka++;
+				}
+				break;
+			case ALLEGRO_KEY_U:
+				if (dane && literka<8)
+				{
+					imie[literka] = 'U';
+					literka++;
+				}
+				break;
+			case ALLEGRO_KEY_I:
+				if (dane && literka<8)
+				{
+					imie[literka] = 'I';
+					literka++;
+				}
+				break;
+			case ALLEGRO_KEY_O:
+				if (dane && literka<8)
+				{
+					imie[literka] = 'O';
+					literka++;
+				}
+				break;
+			case ALLEGRO_KEY_P:
+				if (dane && literka<8)
+				{
+					imie[literka] = 'P';
+					literka++;
+				}
+				break;
+			case ALLEGRO_KEY_A:
+				if (dane && literka<8)
+				{
+					imie[literka] = 'A';
+					literka++;
+				}
+				break;
+			case ALLEGRO_KEY_S:
+				if (dane && literka<8)
+				{
+					imie[literka] = 'S';
+					literka++;
+				}
+				break;
+			case ALLEGRO_KEY_D:
+				if (dane && literka<8)
+				{
+					imie[literka] = 'D';
+					literka++;
+				}
+				break;
+			case ALLEGRO_KEY_F:
+				if (dane && literka<8)
+				{
+					imie[literka] = 'F';
+					literka++;
+				}
+				break;
+			case ALLEGRO_KEY_G:
+				if (dane && literka<8)
+				{
+					imie[literka] = 'G';
+					literka++;
+				}
+				break;
+			case ALLEGRO_KEY_H:
+				if (dane && literka<8)
+				{
+					imie[literka] = 'H';
+					literka++;
+				}
+				break;
+			case ALLEGRO_KEY_J:
+				if (dane && literka<8)
+				{
+					imie[literka] = 'J';
+					literka++;
+				}
+				break;
+			case ALLEGRO_KEY_K:
+				if (dane && literka<8)
+				{
+					imie[literka] = 'K';
+					literka++;
+				}
+				break;
+			case ALLEGRO_KEY_L:
+				if (dane && literka<8)
+				{
+					imie[literka] = 'L';
+					literka++;
+				}
+				break;
+			case ALLEGRO_KEY_Z:
+				if (dane && literka<8)
+				{
+					imie[literka] = 'Z';
+					literka++;
+				}
+				break;
+			case ALLEGRO_KEY_X:
+				if (dane && literka<8)
+				{
+					imie[literka] = 'X';
+					literka++;
+				}
+				break;
+			case ALLEGRO_KEY_C:
+				if (dane && literka<8)
+				{
+					imie[literka] = 'C';
+					literka++;
+				}
+				break;
+			case ALLEGRO_KEY_V:
+				if (dane && literka<8)
+				{
+					imie[literka] = 'V';
+					literka++;
+				}
+				break;
+			case ALLEGRO_KEY_B:
+				if (dane && literka<8)
+				{
+					imie[literka] = 'B';
+					literka++;
+				}
+				break;
+			case ALLEGRO_KEY_N:
+				if (dane && literka<8)
+				{
+					imie[literka] = 'N';
+					literka++;
+				}
+				break;
+			case ALLEGRO_KEY_M:
+				if (dane && literka<8)
+				{
+					imie[literka] = 'M';
+					literka++;
+				}
+				break;
+
 			case ALLEGRO_KEY_UP:
 				if (graj)
 				{
@@ -364,7 +544,6 @@ int main(void)
 					keys[RIGHT] = false;
 				}
 				break;
-
 			case ALLEGRO_KEY_DOWN:
 				if (graj)
 				{
@@ -403,10 +582,10 @@ int main(void)
 				done = true;
 				break;
 			case ALLEGRO_KEY_ENTER:
-				poziom++;
-				if(poziom==6)
+				if(dane)
 				{
-					poziom = 1;
+					dane = false;
+					count = 0;
 				}
 				break;
 			}
