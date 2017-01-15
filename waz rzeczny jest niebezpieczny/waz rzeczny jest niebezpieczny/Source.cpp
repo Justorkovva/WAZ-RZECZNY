@@ -171,7 +171,9 @@ int main(void)
 				los2 = rand() % 40;
 				if (poziom1[los][los2] == 0)
 				{
-					if ((los !=4 && los2 != 20) && (los != 5 && los2 != 20) && (los != 6 && los2 != 20) && (los != 6 && los2 != 19) && (los != 7 && los2 != 19))
+					if ((los == 4 && los2 == 20) || (los == 5 && los2== 20) || (los == 6 && los2 == 20) || (los == 6 && los2 == 19) || (los == 7 && los2 == 19))
+					{}
+					else
 					{
 						poziom1[los][los2] = 2;
 						p++;
@@ -185,7 +187,9 @@ int main(void)
 				los2 = rand() % 40;
 				if (poziom2[los][los2] == 0)
 				{
-					if ((los != 26 && los2 != 20) && (los != 9 && los2 != 12) && (los != 18 && los2 != 12) && (los != 8 && los2 != 21) && (los != 19 && los2 != 21) && (los != 4 && los2 != 20) && (los != 4 && los2 != 19) && (los != 4 && los2 != 18) && (los != 4 && los2 != 17) && (los != 3 && los2 != 17))
+					if ((los == 26 && los2 == 20) || (los == 9 && los2 == 12) || (los == 18 && los2 == 12) || (los == 8 && los2 == 21) || (los == 19 && los2 == 21) || (los == 4 && los2 == 20) || (los == 4 && los2 == 19) || (los == 4 && los2 == 18) || (los == 4 && los2 == 17) || (los == 3 && los2 == 17))
+					{}
+					else
 					{
 						poziom2[los][los2] = 2;
 						p++;
@@ -199,7 +203,9 @@ int main(void)
 				los2 = rand() % 40;
 				if (poziom3[los][los2] == 0)
 				{
-					if ((los != 2 && los2 != 20) && (los != 3 && los2 != 20) && (los != 4 && los2 != 20) && (los != 4 && los2 != 19) && (los != 5 && los2 != 19) && (los!=25 && los2!=18) && (los != 25 && los2 != 21) && (los != 25 && los2 != 23) && (los != 26 && los2 != 17) && (los != 26 && los2 != 22) && (los != 25 && los2 != 16) && (los != 12 && los2 != 38) && (los != 15 && los2 != 38) && (los != 12 && los2 != 1) && (los != 15 && los2 != 1) && (los != 4 && los2 != 16) && (los != 4 && los2 != 23) && (los != 3 && los2 != 17) && (los != 3 && los2 != 22) && (los != 4 && los2 != 18) && (los != 4 && los2 != 21))
+					if ((los == 2 && los2 == 20) || (los == 3 && los2 == 20) || (los == 4 && los2 == 20) || (los == 4 && los2 == 19) || (los == 5 && los2 == 19) || (los==3 && los2==17) || (los == 3 && los2 == 22) || (los == 4 && los2 == 16) || (los == 4 && los2 == 18) || (los == 4 && los2 == 21) || (los == 4 && los2 == 23) || (los == 24 && los2 == 17) || (los == 24 && los2 == 22) || (los == 23 && los2 == 16) || (los == 23 && los2 == 18) || (los == 23 && los2 == 21) || (los == 23 && los2 == 23) || (los == 15 && los2 == 38) || (los == 12 && los2 == 1) || (los == 15 && los2 == 1) || (los == 12 && los2 == 38))
+					{ }
+					else
 					{
 						poziom3[los][los2] = 2;
 						p++;
@@ -213,7 +219,9 @@ int main(void)
 				los2 = rand() % 40;
 				if (poziom4[los][los2] == 0)
 				{
-					if ((los != 4 && los2 != 20) && (los != 5 && los2 != 20) && (los != 6 && los2 != 20) && (los != 6 && los2 != 19) && (los != 6 && los2 != 18))
+					if ((los == 4 && los2 == 20) || (los == 5 && los2 == 20) || (los == 6 && los2 == 20) || (los == 6 && los2 == 19) || (los == 6 && los2 == 18))
+					{}
+					else
 					{
 						poziom4[los][los2] = 2;
 						p++;
@@ -228,7 +236,9 @@ int main(void)
 
 				if (poziom5[los][los2] == 0)
 				{
-					if ((los != 4 && los2 != 20) && (los != 4 && los2 != 19) && (los != 4 && los2 != 18) && (los != 4 && los2 != 17) && (los != 3 && los2 != 17) && (los != 6 && los2 != 3) && (los != 10 && los2 != 4) && (los != 17 && los2 != 4) && (los != 4 && los2 != 20) && (los != 4 && los2 != 19) && (los != 4 && los2 != 18) && (los != 4 && los2 != 17) && (los != 3 && los2 != 17))
+					if ((los == 4 && los2 == 20) || (los == 4 && los2 == 19) || (los == 4 && los2 == 18) || (los == 4 && los2 == 17) || (los == 3 && los2 == 17) || (los == 6 && los2 == 3) || (los == 10 && los2 == 4) || (los == 17 && los2 == 4))
+					{ }
+					else
 					{
 						poziom5[los][los2] = 2;
 						p++;
@@ -583,7 +593,7 @@ int main(void)
 				}
 				break;
 			case ALLEGRO_KEY_SPACE:
-				if (!graj)
+				if (!graj && !tytul)
 				{
 					czas = true;
 					graj = true;
@@ -609,7 +619,7 @@ int main(void)
 		else if (ev.type == ALLEGRO_EVENT_TIMER)
 		{
 			count++;
-			if (czas && count%90==0)
+			if (czas && count%90==0 && sekundy!=120)
 			{
 				sekundy++;
 			}
