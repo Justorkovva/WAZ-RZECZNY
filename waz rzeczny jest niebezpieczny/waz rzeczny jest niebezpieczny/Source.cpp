@@ -37,6 +37,12 @@ int main(void)
 		ALLEGRO_BITMAP *serce4 = al_load_bitmap("serce4.png");
 		ALLEGRO_BITMAP *serce5 = al_load_bitmap("serce5.png");
 		ALLEGRO_BITMAP *wynikikoniec = al_load_bitmap("koniec.png");
+		ALLEGRO_BITMAP *zegar1 = al_load_bitmap("zegar1.png");
+		ALLEGRO_BITMAP *zegar2 = al_load_bitmap("zegar2.png");
+		ALLEGRO_BITMAP *zegar3 = al_load_bitmap("zegar3.png");
+		ALLEGRO_BITMAP *zegar4 = al_load_bitmap("zegar4.png");
+		ALLEGRO_BITMAP *zegar5 = al_load_bitmap("zegar5.png");
+
 
 	
 	int count = 0;
@@ -54,9 +60,11 @@ int main(void)
 	bool przegrales = true;
 	bool sort = false;
 	bool dane = true;
+	bool czas = false;
+	int sekundy = 0;
 	int predkoscbazowa = 50;
 	int predkosc=predkoscbazowa;
-	short int p=0,p1=85,p2=110,p3=130,p4=100,p5=160,los,los2,i,j,najw,najm,im,jm,iw,jw; //120 130 150 100 180
+	short int p=0,p1=100,p2=110,p3=130,p4=100,p5=160,los,los2,i,j,najw,najm,im,jm,iw,jw; //120 130 150 100 180
 	short poziom = 0;
 	string imie="        ";
 	int literka = 0;
@@ -234,7 +242,7 @@ int main(void)
 		if (koniec)
 		{
 			//sortowanie
-			if ((punkty > wynik6) && sort==1)
+			if ((punkty > wynik6) && sort)
 			{
 				sort = false ;
 				if (punkty > wynik1)
@@ -352,6 +360,9 @@ int main(void)
 		{
 			switch (ev.keyboard.keycode)
 			{
+			case ALLEGRO_KEY_CAPSLOCK:
+				poziom++;
+				break;
 			case ALLEGRO_KEY_Q:
 				if (dane && literka<8)
 				{
@@ -574,6 +585,7 @@ int main(void)
 			case ALLEGRO_KEY_SPACE:
 				if (!graj)
 				{
+					czas = true;
 					graj = true;
 				go[R] = true;
 				}
@@ -597,14 +609,20 @@ int main(void)
 		else if (ev.type == ALLEGRO_EVENT_TIMER)
 		{
 			count++;
+			if (czas && count%90==0)
+			{
+				sekundy++;
+			}
 			
 			if (poziom == 1)
 			{
 				al_clear_to_color(al_map_rgb(255, 0, 0));
-				al_draw_text(malaczcionka, al_map_rgb(255, 255, 255), 320, 4, ALLEGRO_ALIGN_CENTRE, "Poziom  1");
+				al_draw_text(malaczcionka, al_map_rgb(255, 255, 255), 250, 4, ALLEGRO_ALIGN_CENTRE, "Poziom  1");
 				al_draw_textf(malaczcionka, al_map_rgb(255, 255, 255), 620, 4, ALLEGRO_ALIGN_RIGHT, "%i",punkty);
 				al_draw_bitmap(serce1, 10, 0, 0);
 				al_draw_textf(malaczcionka, al_map_rgb(255, 255, 255), 60, 4, ALLEGRO_ALIGN_LEFT, " -   %i", zycie);
+				al_draw_bitmap(zegar1, 400, 1, 0);
+				al_draw_textf(malaczcionka, al_map_rgb(255, 255, 255), 480, 4, ALLEGRO_ALIGN_RIGHT, "%i", 120-sekundy);
 				
 				for ( i = 0; i < 28; i++)
 				{
@@ -626,6 +644,7 @@ int main(void)
 				}
 				if (!graj) // komunikat i zerowanie pozycji weza
 				{
+					czas = false;
 					keys[RIGHT] = false;
 					keys[UP] = false;
 					keys[LEFT] = false;
@@ -671,6 +690,8 @@ int main(void)
 					punkty += 2000;
 					p = 0;
 					predkosc = predkoscbazowa;
+					punkty += (120 - sekundy) * 10;
+					sekundy = 0;
 				}
 				
 				//skrecanie
@@ -1024,10 +1045,13 @@ int main(void)
 			else if (poziom == 2)
 			{
 				al_clear_to_color(al_map_rgb(255, 230, 128));
-				al_draw_text(malaczcionka, al_map_rgb(255, 0, 128), 320, 4, ALLEGRO_ALIGN_CENTRE, "Poziom  2");
+				al_draw_text(malaczcionka, al_map_rgb(255, 0, 128), 250, 4, ALLEGRO_ALIGN_CENTRE, "Poziom  2");
 				al_draw_textf(malaczcionka, al_map_rgb(255, 0, 128), 620, 4, ALLEGRO_ALIGN_RIGHT, "%i", punkty);
 				al_draw_bitmap(serce2, 10, 0, 0);
 				al_draw_textf(malaczcionka, al_map_rgb(255, 0, 128), 60, 4, ALLEGRO_ALIGN_LEFT, " -   %i", zycie);
+				al_draw_bitmap(zegar2, 400, 1, 0);
+				al_draw_textf(malaczcionka, al_map_rgb(255, 0, 128), 480, 4, ALLEGRO_ALIGN_RIGHT, "%i", 120 - sekundy);
+
 				for (i = 0; i < 28; i++)
 				{
 					for (j = 0; j < 40; j++)
@@ -1046,6 +1070,7 @@ int main(void)
 				}
 				if (!graj)
 				{
+					czas = false;
 					keys[RIGHT] = false;
 					keys[UP] = false;
 					keys[LEFT] = false;
@@ -1090,6 +1115,8 @@ int main(void)
 					punkty += 2000;
 					p = 0;
 					predkosc = predkoscbazowa;
+					punkty += (120 - sekundy) * 10;
+					sekundy = 0;
 				}
 				
 				//skrecanie
@@ -1441,10 +1468,12 @@ int main(void)
 			else if (poziom == 3)
 			{
 				al_clear_to_color(al_map_rgb(70, 255, 255));
-				al_draw_text(malaczcionka, al_map_rgb(14, 0, 255), 320, 4, ALLEGRO_ALIGN_CENTRE, "Poziom  3");
+				al_draw_text(malaczcionka, al_map_rgb(14, 0, 255), 250, 4, ALLEGRO_ALIGN_CENTRE, "Poziom  3");
 				al_draw_textf(malaczcionka, al_map_rgb(14, 0, 255), 620, 4, ALLEGRO_ALIGN_RIGHT, "%i", punkty);
 				al_draw_bitmap(serce3, 10, 0, 0);
 				al_draw_textf(malaczcionka, al_map_rgb(14, 0, 255), 60, 4, ALLEGRO_ALIGN_LEFT, " -   %i", zycie);
+				al_draw_bitmap(zegar3, 400, 1, 0);
+				al_draw_textf(malaczcionka, al_map_rgb(14, 0, 255), 480, 4, ALLEGRO_ALIGN_RIGHT, "%i", 120 - sekundy);
 				for ( i = 0; i < 28; i++)
 				{
 					for (j = 0; j < 40; j++)
@@ -1465,6 +1494,7 @@ int main(void)
 				}
 				if (!graj)
 				{
+					czas = false;
 					keys[RIGHT] = false;
 					keys[UP] = false;
 					keys[LEFT] = false;
@@ -1511,6 +1541,8 @@ int main(void)
 					punkty += 2000;
 					p = 0;
 					predkosc = predkoscbazowa;
+					punkty += (120 - sekundy) * 10;
+					sekundy = 0;
 				}
 				
 				//skrecanie
@@ -1861,10 +1893,12 @@ int main(void)
 			else if (poziom == 4)
 			{
 				al_clear_to_color(al_map_rgb(180, 0, 255));
-				al_draw_text(malaczcionka, al_map_rgb(255, 195, 2), 320, 4, ALLEGRO_ALIGN_CENTRE, "Poziom  4");
+				al_draw_text(malaczcionka, al_map_rgb(255, 195, 2), 250, 4, ALLEGRO_ALIGN_CENTRE, "Poziom  4");
 				al_draw_textf(malaczcionka, al_map_rgb(255, 195, 2), 620, 4, ALLEGRO_ALIGN_RIGHT, "%i", punkty);
 				al_draw_bitmap(serce4, 10, 0, 0);
 				al_draw_textf(malaczcionka, al_map_rgb(255, 195, 2), 60, 4, ALLEGRO_ALIGN_LEFT, " -   %i", zycie);
+				al_draw_bitmap(zegar4, 400, 1, 0);
+				al_draw_textf(malaczcionka, al_map_rgb(255, 195, 2), 480, 4, ALLEGRO_ALIGN_RIGHT, "%i", 120 - sekundy);
 				for ( i = 0; i < 28; i++)
 				{
 					for ( j = 0; j < 40; j++)
@@ -1883,6 +1917,7 @@ int main(void)
 				}
 				if (!graj)
 				{
+					czas = false;
 					keys[RIGHT] = false;
 					keys[UP] = false;
 					keys[LEFT] = false;
@@ -1926,6 +1961,8 @@ int main(void)
 					punkty += 2000;
 					p = 0;
 					predkosc = predkoscbazowa;
+					punkty += (120 - sekundy) * 10;
+					sekundy = 0;
 				}
 				//skrecanie
 				if (count % (FPS - predkosc) == 0)
@@ -2276,10 +2313,12 @@ int main(void)
 			else if (poziom == 5)
 			{
 				al_clear_to_color(al_map_rgb(248, 160, 17));
-				al_draw_text(malaczcionka, al_map_rgb(255, 0, 50), 320, 4, ALLEGRO_ALIGN_CENTRE, "Poziom  5");
+				al_draw_text(malaczcionka, al_map_rgb(255, 0, 50), 250, 4, ALLEGRO_ALIGN_CENTRE, "Poziom  5");
 				al_draw_textf(malaczcionka, al_map_rgb(255, 0, 50), 620, 4, ALLEGRO_ALIGN_RIGHT, "%i", punkty);
 				al_draw_bitmap(serce5, 10, 0, 0);
 				al_draw_textf(malaczcionka, al_map_rgb(255, 0, 50), 60, 4, ALLEGRO_ALIGN_LEFT, " -   %i", zycie);
+				al_draw_bitmap(zegar5, 400, 1, 0);
+				al_draw_textf(malaczcionka, al_map_rgb(255, 0, 50), 480, 4, ALLEGRO_ALIGN_RIGHT, "%i", 120 - sekundy);
 				for ( i = 0; i < 28; i++)
 				{
 					for ( j = 0; j < 40; j++)
@@ -2302,6 +2341,7 @@ int main(void)
 				}
 				if (!graj)
 				{
+					czas = false;
 					keys[RIGHT] = false;
 					keys[UP] = false;
 					keys[LEFT] = false;
@@ -2348,6 +2388,8 @@ int main(void)
 					p = 0;
 					poziom = 6;
 					predkosc = predkoscbazowa;
+					punkty += (120 - sekundy) * 10;
+					sekundy = 0;
 				}
 				//skrecanie
 				if (count % (FPS - predkosc) == 0)
